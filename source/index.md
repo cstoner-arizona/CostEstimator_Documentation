@@ -1,11 +1,21 @@
 
-# CADCAST Estimation Cura Plugin Documentation
+# CADCAST Cura Estimation Plugin Documentation
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+Welcome to the official technical documentation for the CADCAST Cura Estimation Plugin.
+
+This is a Sphinx/MyST documentation site for technical knowledge for the Cura plugin.
+The objective is to teach and illustrate the architecture and serve as an API reference for future developers and contributors.
+
+# How to Get Started
+
+{doc}`Getting Started<how-to/getting-started>`
+
+This basic guide will teach you the basics of running the plugin.
+The guide breaks down the installation process for developers whether you're working with the Cura source code directly, or if you just have a normal Cura installation.
 
 
 ```{toctree}
+  :maxdepth: 2
 
+how-to/getting-started
 ```
