@@ -22,17 +22,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Create conda environment in Python 3.11, anaconda-project dependencies need 3.11
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: "3.11"
           auto-activate-base: false
-          conda-remove-defaults: true
+
+      # Add conda-forge channel to conda environment
+      - name: Config conda channels
+        run: conda config --append channels conda-forge
+        shell: bash -el {0}
 
       - name: Install anaconda-project
         run: conda install -y -c conda-forge anaconda-project python=3.11
         shell: bash -el {0}
 
+      # build command defined in anaconda-project.yaml
       - name: Build Sphinx docs
         run: anaconda-project run build
         shell: bash -el {0}
