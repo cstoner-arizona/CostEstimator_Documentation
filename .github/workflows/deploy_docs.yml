@@ -14,6 +14,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+# Fix Node.js 20 actions depreciation
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   # Build from Sphinx source
   build:
@@ -26,7 +30,9 @@ jobs:
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          auto-activate-base: false
+          auto-activate: true
+          activate-environment: base
+          conda-remove-defaults: true
 
       # Add conda-forge channel to conda environment
       - name: Config conda channels
