@@ -31,11 +31,13 @@ jobs:
 
       # Add conda-forge channel to conda environment
       - name: Config conda channels
-        run: conda config --append channels conda-forge
+        run: |
+          conda config --append channels defaults
+          conda config --append channels conda-forge
         shell: bash -el {0}
 
       - name: Install anaconda-project
-        run: conda install -y -c conda-forge anaconda-project python=3.11
+        run: conda install -y -c conda-forge anaconda-project setuptools python=3.11
         shell: bash -el {0}
 
       # build command defined in anaconda-project.yaml
