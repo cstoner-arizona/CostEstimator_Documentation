@@ -25,11 +25,12 @@ jobs:
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
+          python-version: "3.11"
           auto-activate-base: false
           conda-remove-defaults: true
 
       - name: Install anaconda-project
-        run: conda install -y -c conda-forge anaconda-project
+        run: conda install -y -c conda-forge anaconda-project python=3.11
         shell: bash -el {0}
 
       - name: Build Sphinx docs
