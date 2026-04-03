@@ -11,6 +11,7 @@ env_specs:
   default:
     packages:
       - python
+      - setuptools
       - sphinx=9.1.0
       - myst-parser
       - sphinx-rtd-theme
