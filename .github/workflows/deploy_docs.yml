@@ -26,7 +26,6 @@ jobs:
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: "3.11"
           auto-activate-base: false
 
       # Add conda-forge channel to conda environment
@@ -37,7 +36,7 @@ jobs:
         shell: bash -el {0}
 
       - name: Install anaconda-project
-        run: conda install -y -c conda-forge anaconda-project setuptools python=3.11
+        run: conda install -y -c conda-forge anaconda-project setuptools
         shell: bash -el {0}
 
       # build command defined in anaconda-project.yaml
