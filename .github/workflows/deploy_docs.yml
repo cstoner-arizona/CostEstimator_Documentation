@@ -36,12 +36,12 @@ jobs:
         shell: bash -el {0}
 
       - name: Install anaconda-project
-        run: conda install -y -c conda-forge anaconda-project setuptools
+        run: conda install -y -c conda-forge anaconda-project setuptools entrypoints
         shell: bash -el {0}
 
       # build command defined in anaconda-project.yaml
       - name: Build Sphinx docs
-        run: anaconda-project run build
+        run: anaconda-project run build --no-browser
         shell: bash -el {0}
 
       - name: Upload Pages artifact
@@ -54,7 +54,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     # Stops deploy job if PR, only deploy after PR accepted.
-    if: github.even_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     permissions:
       pages: write
