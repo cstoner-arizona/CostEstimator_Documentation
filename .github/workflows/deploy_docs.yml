@@ -41,7 +41,7 @@ jobs:
 
       # build command defined in anaconda-project.yaml
       - name: Build Sphinx docs
-        run: anaconda-project run build --no-browser
+        run: anaconda-project run build
         shell: bash -el {0}
 
       - name: Upload Pages artifact
