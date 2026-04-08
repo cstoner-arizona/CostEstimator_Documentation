@@ -18,4 +18,6 @@ The guide breaks down the installation process for developers whether you're wor
   :maxdepth: 2
 
 how-to/getting-started
+reference/JsonDefinitions
+reference/setting_model.py
 ```

@@ -1,6 +1,8 @@
 # Ingore Build and Envs
 build/
 envs/
+.DS_Store
+.obsidian
 
 # Python caching
 *.pyc
