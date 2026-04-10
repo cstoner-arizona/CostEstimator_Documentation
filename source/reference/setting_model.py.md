@@ -1,11 +1,10 @@
 (SettingModel)=
-# Setting
+# Setting Class
 
-- This object is used to hold setting data. The word "Setting" in this context is referring to the user inputed/ non-user inputed settings in the Cost Estimator Gui. An example is the "Furance Lifetime" of Binder jetting technology tab. This Setting object will hold the type: range, if its user defined: true, the min and max input if its user defined=true. This holds the actual current data value of the setting. That is what this class is used for, hold, represent, and collect all a settings meta data along with its value. 
+- This object is used to hold setting data. The word "Setting" in this context is referring to the user inputed/ non-user inputed settings in the Cost Estimator GUI. An example is the "Furnace Lifetime" of Binder jetting technology tab. This Setting object will hold the type: range, if its user defined: true, the min and max input if its user defined=true. This holds the actual current data value of the setting. That is what this class is used for, hold, represent, and collect all a settings meta data along with its value. 
 
 - This class is a dataclass, meaning we can define methods as `@property`{l=python} which act as attributes. e.g. `settingObj.value = 10 # does type validation in source code`{l=python}
 
-  
 
 ## Purpose/Motivation
 
@@ -14,8 +13,6 @@
 
 - When would someone use this?
 	- Someone would use this when they are checking the type of a setting to determine if they want to have two boxes for input on a range setting through the GUI, or when they need to get a settings value to do computation.
-
-  
 
 ## Basic Usage Example
 
@@ -29,7 +26,7 @@ self.dependencies[setting_name] = setting_obj.depends_on
 
 ```
 
-This checks if a setting object has a `depends_on` list. If it does it will save its dependencies to a dictionary. The key point is that the `.depends_on`{l=python} property is called and is defined to return None if it doesn't have it in the [json scema](#JsonScema). 
+This checks if a setting object has a `depends_on` list. If it does it will save its dependencies to a dictionary. The key point is that the `.depends_on`{l=python} property is called and is defined to return None if it doesn't have it in the [json definition](#JsonDefinitions). 
 
 ## Key Methods/Functions
 
@@ -54,43 +51,43 @@ revert():
 get_save_format(): -> `Dict[str, str|float|bool| List[int|float] ]`
 : This returns a dictionary mapping the setting name to its value to be suitable for writing to json 
 
-`__setitem__(key,value)`:
+\_\_setitem\_\_(key,value):
 : This will allow a dictionary type of notation when changing a settings name or value e.g. `settingObj["value"] = 10.0`{l=python}. This function will do type checking against its original given type and what the new `value` givens type is before setting `self.value`{l=python} to the new value. Same for `settingObj["name"] = "newSettingName"`{l=python}
 : This function raises KeyError, or ValueError if the types of the inputs don't match the schema or expected type of the setting
 
   
 
 ## Important Attributes/Properties
-`type: str`{l:python}
+`type: str`{l=python}
 :  Holds a string representation of the setting type just as its found in the [json definition](#JsonDefinitions)
 
-value: float | int | str | bool | SettingRange`{l:python}
+value: float | int | str | bool | SettingRange`{l=python}
 : Holds the current value of the setting
-:::{seemore}
+:::{seealso}
 [SettingRange](#SettingRange)
 :::
 
-`is_editable: bool | None`{l:python}
+`is_editable: bool | None`{l=python}
 : A direct mapping to the [json definition](#JsonDefinitions) `"user_defined"` attribute. Assumed to always exist, but returns None if it doesn't
 
-`slice_first: bool | None`{l:python}
+`slice_first: bool | None`{l=python}
 : A direct mapping to the [json definition](#JsonDefinitions) `"slice_first"` attribute. If it doesn't exist for a setting then it returns None
 
-`description: str | None`{l:python}
+`description: str | None`{l=python}
 :  A direct mapping to the [json definition](#JsonDefinitions) `"description"` attribute. Assumed to always exist, but returns None if it doesnt
 
-`units: str`{l:python}
+`units: str`{l=python}
 :  A direct mapping to the [json definition](#JsonDefinitions) `"unit"` attribute. Returns empty string if it doesn't exist 
 
-`min: int | float | None`{l:python}
+`min: int | float | None`{l=python}
 : A direct mapping to the [json definition](#JsonDefinitions) `"min"` attribute. Returns the minimum value -- or min length if type=str -- of the setting. Returns None if it doesn't exist
 
   
 
-`max: int | float | None`{l:python}
+`max: int | float | None`{l=python}
 : A direct mapping to the [json definition](#JsonDefinitions) `"max"` attribute. Returns the maximum value -- or max length if type=str -- of the setting. Returns None if it doesn't exist
 
-`decimal: int | None`{l:python}
+`decimal: int | None`{l=python}
 : A direct mapping to the [json definition](#JsonDefinitions) `"decimal"` attribute. Returns the number of decimal places for a float -- and range if it contains float -- types.
 
 `dropdown_options: list[str] | None`{l:python}
@@ -99,7 +96,7 @@ value: float | int | str | bool | SettingRange`{l:python}
 This is not currently used, but if used there should be little changes to get it to work throughout the CostEstimator
 :::
 
-`formula: str | None`{l:python}
+`formula: str | None`{l=python}
 : If called on a calculated setting, it returns the formula this setting is defined by. A direct mapping to the [json definition](#JsonDefinitions) `"formula"` attribute. Returns None if the setting does not have a `"formula"` json definition attribute
 
 `is_modified: bool`{l=python}
