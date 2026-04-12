@@ -23,7 +23,7 @@ CostEstimator/config/resources/data/definitions/machining_def.json
         "machine_utilization",
         "total_machine_hours_per_year"
       ]
-    },
+    }
 ```
 :::
 Here above is an example of a json definition for reference.
@@ -63,6 +63,7 @@ This is a reference of a **calculated** setting. This is because it has both a "
         "in625"
       ]
     }
+// CostEstimator/config/resources/data/definitions/binder_jetting_def.json
 ```
 :::
 - You will see in the example above that it is Material Dependent. It will have a different value for each material. This makes sense because the setting is called "specific_energy_to_melt_metal" which should change per material. 

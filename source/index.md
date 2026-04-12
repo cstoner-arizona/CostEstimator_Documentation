@@ -19,5 +19,7 @@ The guide breaks down the installation process for developers whether you're wor
 
 how-to/getting-started
 reference/JsonDefinitions
+reference/JsonDefaults
 reference/setting_model.py
+reference/range_model.py
 ```
