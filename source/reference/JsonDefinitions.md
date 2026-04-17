@@ -89,8 +89,14 @@ Look at the [calculation](#Calculator) module, you will see that *every* setting
 - These settings have special traits of always having their "original value" being overwritten. This only makes sense if you read the [Setting Model](#SettingModel) documentation. 
 
 
-
 ## How to use each attribute 
+{#how-to-use-name-attr}
+**"name"**
+- Anything that describes the setting briefly. 
+- Convention is all lowercase with underscores -- snake case
+- Keep in mind this name will be used in so many places.
+	- [depends_on](#how-to-use-depends-on-attr)
+	- [formula](#how-to-use-formula-attr)
 {#how-to-use-type-attr}
 **"type"**
 - This is limited to a few strings "int" "float" "string" "range" "boolean" and these are enforced by CostEstimator/config/io/json_tools.py::type_matches(str, any) function.
@@ -114,10 +120,17 @@ This is because when a `SettingRange * float` it produces a `SettingRange`. Lear
 - If you are defining a new setting and there is not a unit for then you should put `"unit": "-"`. 
 - **It is required** to put a unit attribute for every setting. If you do not there should be problems. 
 
+{#how-to-use-formula-attr}
+**"formula"**
+- This attribute should be a string that has the names of all of the [depends_on](#how-to-use-depends-on-attr) json names in a perfect mathematical formula. 
+- There should be **no spaces**
+- There should only be `( ) * + - /` these math symbols 
+- the json names should match **exactly** to the names in the [depends_on](#how-to-use-depends-on-attr) 
+
 {#how-to-use-depends-on-attr}
 **"depends_on"**
 - This attributes value is a list of strings. 
-- This attribute represents all the settings that this [calculated setting]({#calculated-setting}) relies on. 
+- This attribute represents all the settings that this [calculated setting](#calculated-setting) relies on. 
 - This attribute **must** contain all of the settings in the "formula" attribute 
 - The strings in the list **must** be perfect names of the key names of the setting it depends on.
 - Go ahead and look at the [example above](#init-setting-json-def-example). You will see that it depends on "machine_utilization". <- This string is the **exact** name of the json definition in the same file. It can be found in the "machine_cost" category. 

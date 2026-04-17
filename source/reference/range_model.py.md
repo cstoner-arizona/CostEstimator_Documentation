@@ -1,5 +1,6 @@
 (SettingRange)=
 # Setting Range Class
+-  **CostEstimator/config/models/range_model.py**
 - This class provides a data type to have a min and max value. This is used in the GUI to enter a minimum and maximum for a settings value.
 - This class enables all possible math operations so when a range setting is being used in a math operation to calculate another setting the result is another range object.
 

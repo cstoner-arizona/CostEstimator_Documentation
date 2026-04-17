@@ -1,5 +1,6 @@
 (TechnologyModel)=
 # Technology Model
+- **CostEstimator/config/models/technology_model.py**
 - This class models and stores all data needed for a specific additive manufacturing technology. (e.g. Binder Jetting Sand Casting, Machining, Traditional Investment Casting)
 - This class holds the data needed for switching to different technologies on the left side in the GUI. 
 - This class holds all the setting data related to its specific technology.
@@ -114,7 +115,6 @@ process_STL_inputs(new_stl_input_data): This function takes a dictionary of sett
 
 Private method skipped (`_validate_range_value`)
 
-
 ## Important Attributes/Properties
 self.type: str = the name of the technology, it should be pulled from the meta data key in the [json files](#JsonFilesInfo)
 
@@ -149,7 +149,13 @@ CostEstimator/config/resources/data/[defaults](#JsonDefaults)/binder\_jetting_de
   
 self.calculator: [SettingCalculator](#SettingCalculator) = A setting calculator object that will hold inside itself the actual [Calculator](#Calculator) object. The reason for the mask/interface style of SettingCalculator is because we didnt want the logic of choosing the correct calculator inside the technology object. 
 
-self.settings: dict\[str, [Setting](#SettingModel)]
+self.settings: dict\[str, [Setting](#SettingModel)] = A dictionary that holds the [json names](#how-to-use-name-attr) and maps to the [Setting Object](#SettingModel) for that setting. This is used a lot for calling to update a value and then recursively update their dependents. Or is used to save the newly calculated settings from the calculator
+
+self.\_metadata: tuple([Metadata](#Metadata), Metadata) = A tuple of [metadata](#Metadata) objects. This 0th index is the meta data from the [json defaults](#JsonDefaults), The 1st index is the meta data from the [json definitions](#JsonDefinitions). The metadata can be found at the top of any json file, default or defnition. It holds name, author, compatible materials, file type ("data" means defaults), description, etc. 
+
+self.categories: list\[str] = A list of strings that are categories in this technologies json file. For example it includes the strings from "configuration", slicing_configuration", "material_cost", ..., "post_processing_cost", "total_cost" which could be found in the [json files](#JsonFilesInfo) for that technology
+
+
 ## Examples Section
 - More detailed usage examples (Show the common patterns)
 

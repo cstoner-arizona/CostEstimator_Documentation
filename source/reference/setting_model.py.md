@@ -1,6 +1,6 @@
 (SettingModel)=
 # Setting Class
-
+- **CostEstimator/config/models/setting_model.py**
 - This object is used to hold setting data. The word "Setting" in this context is referring to the user inputed/ non-user inputed settings in the Cost Estimator GUI. An example is the "Furnace Lifetime" of Binder jetting technology tab. This Setting object will hold the type: range, if its user defined: true, the min and max input if its user defined=true. This holds the actual current data value of the setting. That is what this class is used for, hold, represent, and collect all a settings meta data along with its value. 
 
 - This class is a dataclass, meaning we can define methods as `@property`{l=python} which act as attributes. e.g. `settingObj.value = 10 # does type validation in source code`{l=python}
