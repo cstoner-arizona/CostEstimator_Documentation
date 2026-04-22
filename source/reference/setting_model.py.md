@@ -23,7 +23,6 @@ for setting_name, setting_obj in settings.items():
 # if the setting is dependant on other settings, save that relationship in this dependency tracker
 if setting_obj.depends_on != None:
 self.dependencies[setting_name] = setting_obj.depends_on
-
 ```
 
 This checks if a setting object has a `depends_on` list. If it does it will save its dependencies to a dictionary. The key point is that the `.depends_on`{l=python} property is called and is defined to return None if it doesn't have it in the [json definition](#JsonDefinitions). 
@@ -93,7 +92,7 @@ value: float | int | str | bool | SettingRange`{l=python}
 `dropdown_options: list[str] | None`{l:python}
 : Returns a list of dropdown options. A direct mapping to the [json definition](#JsonDefinitions) `"options"` attribute. If `self.type!="dropdown"`{l=python} it returns none. 
 :::{note}
-This is not currently used, but if used there should be little changes to get it to work throughout the CostEstimator
+dropdown_options is not currently used, but if used there should be little changes to get it to work throughout the CostEstimator
 :::
 
 `formula: str | None`{l=python}
@@ -102,18 +101,12 @@ This is not currently used, but if used there should be little changes to get it
 `is_modified: bool`{l=python}
 : When a user changes a setting in the GUI this is changed to be `True` and will -- through various connections to pyqt -- enable the "Save Changes" button to light up and be enabled.
 
-
-- What can the user access or modify?
-
   
 
 ## Examples Section
-- More detailed usage examples (Show the common patterns)
+- Blank
 
 ## Notes/Warnings
-
-- Edge cases, performance considerations, gotchas, commit mistakes people can make 
-
 - Possible future implementation: the `self.formula`{l=python} attribute could be parsed and used to calculate the setting and replace the thousands of lines in the `CostEstimator/config/calculator` module 
 
 - No matter what, if a setting that is `"slice_first=true"` it will override the original value when setting a new value to this setting. This is because when the config module receives the new STL values from the [Estimator](#Estimator) module, those values should be considered the originals (in my opinion). 

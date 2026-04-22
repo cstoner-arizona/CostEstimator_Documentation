@@ -42,23 +42,31 @@ revert(): Will do a deepcopy of the original_materials of this materials class a
 
 ## Important Attributes/Properties
 
-self.value = Returns the current value of the currently selected material.
+self.value
+: Returns the current value of the currently selected material.
 
-self.original_value = Returns the original value of the currently selected material.
+self.original_value 
+: Returns the original value of the currently selected material.
 
-self.type = Returns a type object of the current value of the currently selected material.
+self.type
+: Returns a type object of the current value of the currently selected material.
 
 {#self.selected_material}
-self.selected_material = Returns the string name of the currently selected material. You can also set this value by doing `self.selected_material = other_material_name`.
+self.selected_material 
+: Returns the string name of the currently selected material. You can also set this value by doing `self.selected_material = other_material_name`.
 
-self.selectable_materials = Returns a list of all selectable materials.
+self.selectable_materials 
+: Returns a list of all selectable materials.
 
 {#self.materials}
-self.materials = Returns a dictionary of the materials strings mapping to their true value. If a material maps to a setting range then it will have that [SettingRange](#SettingRange) object in this dictionary. You can also set this value by doing `self.materials = new_dict_with_str_map_to_values`.
+self.materials 
+: Returns a dictionary of the materials strings mapping to their true value. If a material maps to a setting range then it will have that [SettingRange](#SettingRange) object in this dictionary. You can also set this value by doing `self.materials = new_dict_with_str_map_to_values`.
 
-self.original_materials = Returns a [self.materials](#self.materials) like dictionary but instead its the values of the original -- on init -- materials in the dictionary. 
+self.original_materials 
+: Returns a [self.materials](#self.materials) like dictionary but instead its the values of the original -- on init -- materials in the dictionary. 
 
-self.is_modified = Returns if the Materials have had any of its values changed from the original. You can also set this value with a boolean.
+self.is_modified 
+: Returns if the Materials have had any of its values changed from the original. You can also set this value with a boolean.
 
   
 
@@ -73,6 +81,5 @@ The `self.material_container` is a [Materials](#MaterialsModel) object
 Its using that to get outs its currently selected materials
 
 ## Notes/Warnings
-- Edge cases, performance considerations, gotchas, commit mistakes people can make 
 - You should think about a Materials Class as a window pane that only shows 1 material at a time. It shows the window pane material in [selected material](#self.selected_material) and uses it to pull from the materials dictionary
 

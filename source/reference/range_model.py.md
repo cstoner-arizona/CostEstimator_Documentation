@@ -60,9 +60,6 @@ average
 type
 : it returns the type of the inner min/max values (e.g. int or float)
 
-
-- What can the user access or modify?
-
   
 
 ## Examples Section
@@ -93,5 +90,4 @@ def _create_range_setting(
 This examples shows that we 
 
 ## Notes/Warnings
-Edge cases, performance considerations, gotchas, commit mistakes people can make 
 - Remember that the json [defaults](#JsonDefaults) for a SettingRange must be a list of numbers of the same type. 

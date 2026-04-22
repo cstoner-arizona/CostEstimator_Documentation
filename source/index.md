@@ -18,8 +18,13 @@ The guide breaks down the installation process for developers whether you're wor
   :maxdepth: 2
 
 how-to/getting-started
+reference/JsonFilesInfo
 reference/JsonDefinitions
 reference/JsonDefaults
+reference/technology_model.py
 reference/setting_model.py
+reference/materials_model.py
 reference/range_model.py
+reference/metadata_model.py
+
 ```

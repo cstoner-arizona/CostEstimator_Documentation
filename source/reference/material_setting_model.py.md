@@ -1,0 +1,78 @@
+(MaterialSetting)=
+# Material Setting Model
+- This class will extend the [Setting](#SettingModel) class which provides the base level for what every setting should have. 
+- This class will provide functionality for a setting object having different values for different available materials
+- This is important for settings like "specific_energy_required_to_melt_metal" which will have a different kWh/kg for every material used. 
+- We want this functionality so that the plugin can be more versatile for the users needs who want to use a specific supported material 
+- This class is a dataclass, meaning we can define methods as `@property`{l=python} which act as attributes. e.g. `matSettingObj.value = 10 # does type validation in source code`{l=python}
+
+## Inherits
+[Setting](#SettingModel): This gives the base level needs of every setting. Name, dependents, type, formula, user_defined, min/max, unit, etc
+
+
+## Purpose/Motivation
+
+- What problem does this solve?
+	- This class was made as a feature request to support multiple materials for a type of additive manufacturing technology. Supporting multiple materials is handy because it allows the user to get a more specific quote on their model, by allowing small (or large) changes in settings and computed price outputs. 
+- When would someone use this?
+	- When someone is adding a new setting to the plugin that will make price estimation more accurate and that setting can have different values based on the material chosen, they will use this object to store that settings data
+
+## Basic Usage Example
+
+- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+
+```python
+```
+
+
+## Key Methods/Functions
+update_material_selection(material_name)
+: This function will change the [material_containers](#material_container_attr) selected material to be the one given as long as its a valid name of a material within the container
+
+get_save_format()
+: Returns a dictionary of the setting name, mapped to a dictionary of the material types names mapping to their value. Dict\[settingName, Dict\[matName, matValue]]
+
+revert()
+: Changes all the values of the [material container](#material_container_attr) back to their original unchanged values, and updates is modified back to false 
+
+set_calculated(calculated_value, override_original)
+: This function probably isnt called because it doesnt make sense for a material setting to be calculated. Besides that this will attempt to set the new value of the currently selected material to the value given. Then it will determine if the new value is a actual different value before setting `self.is_modified` to true. 
+
+\_\_getitem\_\_(item)
+: it returns the value of the material name given, if the material name given is a selectable material for this material setting. 
+:::{note}
+Example: CostEstimator/config/resources/data/[defaults](#JsonDefaults)/investment_casting_default.json
+calling `matSettingObj["316_l_stainless_steel"]`{l=python} on this material setting object below would return `7990`
+```json
+"casting_metal_density": {
+      "alsi10mg": 2670,
+      "alsi7mg0.6": 2680,
+      "316_l_stainless_steel": 7990,
+      "17-4_ph_stainless_steel": 7800,
+      "in718": 8190,
+      "in738": 8110,
+      "in625": 8440
+    }
+```
+:::
+
+\_\_setitem\_\_(key, value)
+: This will check that the key is "value" and then it will update the currently selected materials value in the [material container](#material_container_attr)
+
+
+
+## Important Attributes/Properties
+{#material_container_attr}
+self.material_container
+: 
+
+- What can the user access or modify?
+
+  
+
+## Examples Section
+- More detailed usage examples (Show the common patterns)
+
+## Notes/Warnings
+
+- Edge cases, performance considerations, gotchas, commit mistakes people can make 
