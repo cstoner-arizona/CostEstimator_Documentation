@@ -3,6 +3,7 @@ build/
 envs/
 .DS_Store
 .obsidian
+*.excelidraw.md
 
 # Python caching
 *.pyc
