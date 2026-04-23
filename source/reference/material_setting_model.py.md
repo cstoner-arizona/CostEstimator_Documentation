@@ -17,14 +17,6 @@
 - When would someone use this?
 	- When someone is adding a new setting to the plugin that will make price estimation more accurate and that setting can have different values based on the material chosen, they will use this object to store that settings data
 
-## Basic Usage Example
-
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
-
-```python
-```
-
-
 ## Key Methods/Functions
 update_material_selection(material_name)
 : This function will change the [material_containers](#material_container_attr) selected material to be the one given as long as its a valid name of a material within the container
@@ -59,20 +51,82 @@ calling `matSettingObj["316_l_stainless_steel"]`{l=python} on this material sett
 \_\_setitem\_\_(key, value)
 : This will check that the key is "value" and then it will update the currently selected materials value in the [material container](#material_container_attr)
 
+\_\_repr\_\_()
+: Returns debug string for the class
 
+\_\_str\_\_()
+: Create a string from the [setting](#SettingModel)
 
 ## Important Attributes/Properties
 {#material_container_attr}
 self.material_container
-: 
+: This is a [MaterialsModel](#MaterialsModel) type. This is important because it will hold the mappings of selectable materials to their values, in addition with the currently selected material. You can think of it as window pane. It allows you to see the current selected material in the window, then you can call on it to change what is in the window and it will return the value from now on.
 
-- What can the user access or modify?
+self.value = float, int, [SettingRange](#SettingRange)
+: This returns the value of the currently selected material. 
+: You can also set this value using `matSettingObj.value = something`
 
-  
+self.original_value = float, int, [SettingRange](#SettingRange) 
+: This returns the original value of the currently selected material
+: You can also set this value using matSettingObj.original_value = something. Which will check if the material is modified or not after this change.
+
+self.selectable_materials
+: This returns a list of the names of selectable materials for this specific material setting 
+:::{note}
+Example: CostEstimator/config/resources/data/[defaults](#JsonDefaults)/investment_casting_default.json
+calling `matSettingObj.selectable_materials` on this below would produce a list of strings \["alsi10mg", "alsi7mg0.6", ..., "in738", "in625"]
+```json
+"casting_metal_density": {
+      "alsi10mg": 2670,
+      "alsi7mg0.6": 2680,
+      "316_l_stainless_steel": 7990,
+      "17-4_ph_stainless_steel": 7800,
+      "in718": 8190,
+      "in738": 8110,
+      "in625": 8440
+    }
+```
+::: 
 
 ## Examples Section
-- More detailed usage examples (Show the common patterns)
+* CostEstimator/config/models/[technology_model.py](#TechnologyModel)
+```python
+ def _handle_material_dependent_setting(
+        self,
+        category: str,
+        setting_name: str,
+        setting_value: Any,
+        setting_schema: dict[str, Any],
+        expected_type: str,
+    ) -> None:
+        """Handle material dependent settings."""
+        if expected_type == "range":
+            setting = self._create_material_range_setting(
+                category, setting_name, setting_value, setting_schema
+            )
+        else:
+            setting = self._create_material_setting(
+                category, setting_name, setting_value, setting_schema
+            )
+
+        if setting:
+            self.settings[setting_name] = setting
+```
+This shows that we have to initialize material settings differently. The creation of the setting object doesnt happen until one of those nested function calls. Lets look at the normal setting -- which assumes the value is a float or int.
+```python
+def _create_material_setting(
+        self,
+        category: str,
+        setting_name: str,
+        setting_value: Any,
+        setting_schema: dict[str, Any],
+    ) -> MaterialSetting:
+        """Create a material-dependent setting."""
+        return MaterialSetting(
+            self.type, setting_name, category, setting_value, setting_schema
+        )
+```
+
 
 ## Notes/Warnings
-
-- Edge cases, performance considerations, gotchas, commit mistakes people can make 
+None can be thought of. 
