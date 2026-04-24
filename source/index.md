@@ -21,10 +21,12 @@ how-to/getting-started
 reference/JsonFilesInfo
 reference/JsonDefinitions
 reference/JsonDefaults
+reference/json_tools.py
 reference/technology_model.py
 reference/setting_model.py
+reference/material_setting_model.py
 reference/materials_model.py
 reference/range_model.py
 reference/metadata_model.py
-
+reference/save_load_handler.py
 ```
