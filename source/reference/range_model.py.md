@@ -49,23 +49,27 @@ All of the following methods accept the `other` parameter of each function to be
 - Reverse Floor Division
 - Division Modulus
 - Reverse Division Modules
-to_list
+
+to_list(): List[int]
 : returns a list of min, max
 
 
 
 ## Important Attributes/Properties
-average
+`self.average`{l=python}
 : it returns (min+max)/2
-type
+
+`self.type`{l=python}
 : it returns the type of the inner min/max values (e.g. int or float)
 
   
 
 ## Examples Section
 - More detailed usage examples (Show the common patterns)
+
 {lineno-start=572 emphasize-lines="582,587"}
 ```python
+# CostEstimator/config/models/technology_model::_create_range_setting()
 def _create_range_setting(
     self,
     category: str,
@@ -85,9 +89,9 @@ def _create_range_setting(
 		SettingRange(value_min, value_max),
 		setting_schema,
 	)
-# CostEstimator/config/models/technology_model::_create_range_setting()
+
 ```
-This examples shows that we 
+This examples shows how we create a SettingRange object
 
 ## Notes/Warnings
 - Remember that the json [defaults](#JsonDefaults) for a SettingRange must be a list of numbers of the same type. 

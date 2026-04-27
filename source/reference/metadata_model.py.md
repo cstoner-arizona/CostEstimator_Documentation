@@ -13,34 +13,35 @@
 	- When they want to get the type of a technology json file, or get the author of the [json file](#JsonFilesInfo), or get the compatible_materials to help create a [MaterialSetting](#MaterialSetting)
 
 ## Key Methods/Functions
-as_dict(): Returns the dictionary format of the meta data
+as_dict(): Dictionary
+: Returns the dictionary format of the meta data
 
 
 ## Important Attributes/Properties
 **Keep in mind, all this data is populated by the "metadata" dictionary at the top of** [each json file](#JsonFilesInfo)
 
-self.type
+`self.type`{l=python}
 : the technology name. e.g. "Binder Jettting", "Machining"
 
-self.file
+`self.file`{l=python}
 : "data" if its the [defaults json](#JsonDefaults), "definition" if its the [definitions json](#JsonDefinitions) 
 
-self.is_user_created 
+`self.is_user_created`{l=python}
 : boolean if the json file was first customized int he plugin, then they pressed "save file" then later in that file it would have **true** for this field in the metatdata
 
-self.version 
+`self.version`{l=python}
 : version number for the json file 
 
-self.description 
+`self.description`{l=python}
 : description of the json file
 
-self.author 
+`self.author`{l=python}
 : the author of the json file 
 
-self.company 
+`self.company`{l=python}
 : the company that created the json file
 
-What can be modifed?
+What can be modified?
 - Nothing should really be modified unless another developer overhauls a json file and they should change the company, author, version
 
 ## Examples Section

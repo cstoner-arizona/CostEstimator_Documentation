@@ -59,18 +59,18 @@ calling `matSettingObj["316_l_stainless_steel"]`{l=python} on this material sett
 
 ## Important Attributes/Properties
 {#material_container_attr}
-self.material_container
+`self.material_container`{l=python}
 : This is a [MaterialsModel](#MaterialsModel) type. This is important because it will hold the mappings of selectable materials to their values, in addition with the currently selected material. You can think of it as window pane. It allows you to see the current selected material in the window, then you can call on it to change what is in the window and it will return the value from now on.
 
-self.value = float, int, [SettingRange](#SettingRange)
+`self.value`{l=python} = float, int, [SettingRange](#SettingRange)
 : This returns the value of the currently selected material. 
 : You can also set this value using `matSettingObj.value = something`
 
-self.original_value = float, int, [SettingRange](#SettingRange) 
+`self.original_value`{l=python} = float, int, [SettingRange](#SettingRange) 
 : This returns the original value of the currently selected material
 : You can also set this value using matSettingObj.original_value = something. Which will check if the material is modified or not after this change.
 
-self.selectable_materials
+`self.selectable_materials`{l=python}
 : This returns a list of the names of selectable materials for this specific material setting 
 :::{note}
 Example: CostEstimator/config/resources/data/[defaults](#JsonDefaults)/investment_casting_default.json
