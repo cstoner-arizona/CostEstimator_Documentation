@@ -1,5 +1,6 @@
 (Metadata)=
 # Metadata Model
+- **CostEstimator/config/models/metadata_model.py**
 - This class provides a simply way to get out each part of the metadata found at the top of [both json files](#JsonFilesInfo)
 - This class is a dataclass so we can define methods as "properties" which can be called like attributes of a class -- meaning with no `()` at the end. 
 

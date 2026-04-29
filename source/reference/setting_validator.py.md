@@ -1,5 +1,6 @@
 (SettingValidator)=
 # SettingValidator.py
+- **CostEstimator/config/validator/setting_validator.py**
 - This class is the configuration class that holds the rules that will be used in the '[validate_setting](#ValidateSetting)' function of this class. 
 - The "rule" classes that are created in `setting_validator.py`  will implement a `def validate(value, schema)` function that does a check for its specific purpose. For example the [Type Validation Rule](#TypeValidationRule) will implement `def validation` as checking if the string type in the [schema](#JsonDefinitions) is lets say "int" that the value is an instance of int and if not it'll return the False and a string of the error.
 

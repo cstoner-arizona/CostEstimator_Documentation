@@ -1,5 +1,6 @@
 (MaterialSetting)=
 # Material Setting Model
+- **CostEstimator/config/models/materials/material_setting_model.py**
 - This class will extend the [Setting](#SettingModel) class which provides the base level for what every setting should have. 
 - This class will provide functionality for a setting object having different values for different available materials
 - This is important for settings like "specific_energy_required_to_melt_metal" which will have a different kWh/kg for every material used. 

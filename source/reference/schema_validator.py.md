@@ -1,5 +1,6 @@
 (SchemaValidator)=
 # SchemaValidator
+- **CostEstimator/config/validator/schema_validator.py**
 - This class will help with confirming that the [json definitions](#JsonDefinitions) are in the correct file structures with all the expected tech types in a folder, also checking that for each technology settings [defaults](#JsonDefaults) align with the [definitions](#JsonDefinitions), then finally also checking that the user saved file matches with its corresponding 
 
 
