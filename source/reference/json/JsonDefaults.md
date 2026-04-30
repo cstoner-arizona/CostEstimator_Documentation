@@ -10,7 +10,7 @@ Currently almost no settings are `"type": int` besides "batch_size" in all techn
 
 All of the default data in the jsons were based off of a Excel Spread sheet that Alfred -- our material scientist -- created. 
 
-# When modifying defaults, consider
+## When modifying defaults, consider
 For all examples I will be using `CostEstimator/config/resources/data/defaults/binder_jetting_def.json`
 
 When you are modifying the defaults you must consider the type of the setting. 
