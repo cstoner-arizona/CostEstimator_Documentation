@@ -1,19 +1,25 @@
-EXPLAINATION OF THE REFERENCE SECTION
+(APIReferenceIndex)=
+# Reference
+
+Hello I am a index reference to all API and Reference materials!
 
 ```{toctree}
-  :maxdepth: 2
-file_service.py
-json_tools.py
-JsonDefaults
-JsonDefinitions
-JsonFilesInfo
-material_setting_model.py
-materials_model.py
-metadata_model.py
-range_model.py
-save_load_handler.py
-schema_validator.py
-setting_model.py
-setting_validator.py
-technology_model.py
+  :maxdepth: 1
+  :caption: Reference Sections
+
+json/JsonDefaults
+json/JsonDefinitions
+json/JsonFilesInfo
+json/file_service.py
+json/json_tools.py
+json/save_load_handler.py
+models/technology_model.py
+models/setting_model.py
+models/range_model.py
+models/metadata_model.py
+models/material_setting_model.py
+models/materials_model.py
+valdiator/schema_validator.py
+valdiator/setting_validator.py
 ```
+
