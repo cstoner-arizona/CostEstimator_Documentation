@@ -58,7 +58,12 @@ calculation_logger(many params):
 : This function just sends out a log message of the new calculation result
 
 calculate_setting(setting_name, override_original) [Setting](#SettingModel):
-: This function 
+: This function will be given a calculated setting and it will make sure that setting
+: is a valid calculated setting, then it will call to [another function](#recursively_update_setting) to recursively update all
+: of this settings dependencies and then finally calculate this function. 
+
+{#recursively_update_setting}
+f
 
 
 ## Important Attributes/Properties
