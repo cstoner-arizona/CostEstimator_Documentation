@@ -6,17 +6,23 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import sys
+import os
+
 project = "CADCAST Estimation Plugin for Cura Documentation"
 copyright = "2026, CStoner"
 author = "CStoner"
 release = "0.0.1"
+
+sys.path.insert(0, os.path.abspath('../_ext'))
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
     "myst_parser",
-    "sphinx_togglebutton"
+    "sphinx_togglebutton",
+    "qml_domain"
     ]
 
 myst_enable_extensions = [
