@@ -7,6 +7,7 @@ Hello I am a index reference to all API and Reference materials!
   :maxdepth: 1
   :caption: Reference Sections
 
+main/CostEstimator.py
 managers/config_manager.py
 json/JsonDefaults
 json/JsonDefinitions
