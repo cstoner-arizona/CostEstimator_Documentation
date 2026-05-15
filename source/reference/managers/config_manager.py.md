@@ -121,16 +121,174 @@ The string names discussed in the functions above can be found in the JSON defin
 
 ```{eval-rst}
 .. py:property:: file_service
-   :type: FileService
+
+  :type: :ref:`FileService`
+
+  Handles file related information and IO operations to read and write to JSON.
+
+  ```
+
+```{eval-rst}
+.. py:property:: schema_validator
+
+  :type: :ref:`SchemaValidator`
+
+  Handles file structure and schema validation based on recieved file paths from :py:attr:`file_service`.
 ```
+
+```{eval-rst}
+.. py:property:: api
+
+  :type: :ref:`ConfigAPI`
+
+  Initalizes the API that will be referenced and utilized by :ref:`CostEstimator`.
+  The API gives external modules a interface to use to affect data structures inside :ref:`ConfigManager`.
+```
+
+```{eval-rst}
+.. py:property:: _modified
+
+  :type: bool
+
+  Private property which holds the boolean info if the currently selected technology has
+  setting values that differ from the original value.
+
+```
+
+```{eval-rst}
+.. py:property:: _data_schema
+
+  :type: Dict[str, dict]
+
+  Loaded JSON deserialized data where the string key is the technology, and the value is the deserialized JSON as a dictionary.
+  Specifically for the data schemas loaded from the JSON Definitions. See also :ref:`JsonDefinitions`.
+```
+
+```{eval-rst}
+.. py:property:: _default_data
+
+  :type: Dict[str, dict]
+
+  Loaded JSON deserialized data where the string key is the technology, and the value is the deserialized JSON as a dictionary.
+  Specifically for the data defaults loaded from the JSON Defaults. See also :ref:`JsonDefaults`.
+```
+
+```{eval-rst}
+.. py:property:: _user_data
+
+  :type: Dict[str, dict]
+
+  Loaded JSON deserialized data where the string key is the technology, and the value is the deserialized JSON as a dictionary.
+  Specifically for user saved data loaded from the JSON User Data. Only ever populated if user has saved JSON data in the user directory.
+```
+
+```{eval-rst}
+.. py:property:: technologies
+
+  :type: Dict[str, :ref:`TechnologyModel`]
+
+  Main dictionary that holds the :ref:`TechnologyModel` objects.
+  The key is a string which is the name of the printer technology, the value is the actual :ref:`TechnologyModel` object itself.
+```
+
+```{eval-rst}
+.. py:property:: current_type
+
+  :type: :ref:`TechnologyModel`
+
+  The currently selected technology that is being displayed by the configuration window.
+  Gets the first Technology object from :py:attr:`technologies` when initalized to automatically select the first technology.
+```
+
 
 ### QML Signals
 
+```{eval-rst}
+.. py:signal:: currentTypeChanged
+
+  Emits when the technology type a user has selected in the UI has changed to a new type.
+  
+  Attached via notify to :py:attr:`currentType` and emitted by its setter.
+```
+
+```{eval-rst}
+.. py:signal:: settingsDataDiscarded
+
+  Emits when all user modified data has been discarded back to the set previous original value.
+
+  Attached via notify to :py:attr:`types`.
+  Emitted by :py:func:`discardChanges`, :py:func:`discardAllChanges`, and :py:attr:`currentType` setter.
+```
+
+```{eval-rst}
+.. py:signal:: modifiedChanged
+
+  Emits when any technology setting's value has been altered to be different than the stored original value of the setting.
+  This means any time a user changes a setting, this signal will be emitted to QML components like the save and discard button to become enabled.
+
+  Attached via notify to :py:attr:`modified`.
+  Emitted by :py:func:`set_modified`.
+```
+
+```{eval-rst}
+.. py:signal:: updateSetting
+
+  Emits when a setting values displayed in the QML settings panel insides the text boxes requires updating to the display.
+  For example, this happens when a user selects a different material for their analysis from the dropdown.
+
+  Emitted by :py:func:`setMaterialSelection`, :py:func:`setSettingValue`, and :py:func:`refreshSettings`
+```
+
+```{eval-rst}
+.. py:signal:: settingsSaved
+
+  Emits after successful saving of the setting values to a JSON.
+  Only used in :ref:`CostEstimator`, connects to a function but does nothing right now.
+```
+
+```{eval-rst}
+.. py:signal:: settingsLoaded
+
+  Emits after successful loading of the setting values from a JSON.
+  Only used in :ref:`CostEstimator`, connects to a function but does nothing right now.
+```
+
+
 ### QML Properties
 
-- What can the user access or modify?
+```{eval-rst}
+.. py:property:: types
 
-  
+  *Decorated with* @pyqtProperty(list, notify=settingsDataDiscarded)
+
+  QML Property which gets a list of all printer technologies from the :py:attr:`technologies` dictionary keys.
+
+  :type: list[str]
+```
+
+```{eval-rst}
+.. py:property:: currentType
+
+  *Decorated with* @pyqtProperty(str, notify=currentTypeChanged)
+
+  QML property which gets reaccessed when :py:attr:`currentTypeChanged` is emitted.
+  This reaccessment happens within MainPrinterConfigTab.qml to be able to change the
+  right side setting menu by returning the newly selected current technology type.
+
+  :type: str
+```
+
+```{eval-rst}
+.. py:property:: modified
+
+  *Decorated with* @pyqtProperty(bool, notify=modifiedChanged)
+
+  QML property which is a boolean that specifies whether setting value data has been modified.
+  True means data has been modified from the specified original, false means all data equals the specified original.
+
+  :type: bool
+```
+
 
 ## Examples Section
 - More detailed usage examples (Show the common patterns)
