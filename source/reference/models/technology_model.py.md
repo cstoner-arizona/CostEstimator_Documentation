@@ -1,4 +1,4 @@
-(TechnologyModel)=
+e(TechnologyModel)=
 # Technology Model
 - **CostEstimator/config/models/technology_model.py**
 - This class models and stores all data needed for a specific additive manufacturing technology. (e.g. Binder Jetting Sand Casting, Machining, Traditional Investment Casting)
@@ -148,7 +148,8 @@ CostEstimator/config/resources/data/[defaults](#JsonDefaults)/binder\_jetting_de
   }
  
 ```
-  
+
+{#TechnologiesSelfCalculator}
 self.calculator: [SettingCalculator](#SettingCalculator) 
 : A setting calculator object that will hold inside itself the actual [Calculator](#Calculator) object. The reason for the mask/interface style of SettingCalculator is because we didnt want the logic of choosing the correct calculator inside the technology object. 
 

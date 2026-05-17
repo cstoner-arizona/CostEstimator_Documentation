@@ -22,5 +22,10 @@ models/material_setting_model.py
 models/materials_model.py
 valdiator/schema_validator.py
 valdiator/setting_validator.py
+calculator/base.py
+calculator/Calculator
+calculator/setting_calculator.py
+calculator/Spe
+
 ```
 
