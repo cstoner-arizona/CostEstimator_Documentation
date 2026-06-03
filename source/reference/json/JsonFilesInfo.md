@@ -33,3 +33,4 @@ Whenever a new setting gets added, currently there are 4 things that need to be 
 4. Create a update function for this setting ([More about update functions here](#SettingUpdateMethod))
 5. Create a calculate function for this setting ([More about calculate functions here](#SettingCaculateMethod))
 6. Add the json name of this new setting and the function name to the dispatch table for this setting
+

@@ -44,7 +44,7 @@ def __setitem__(self, setting_name, value, /):
 
 
 ## Key Methods/Functions
-```
+```{eval-rst}
 .. py:method:: __init__(printer_type: str, settings: Dict[str, Setting])
 
    Initializes the SettingCalculator instance and selects the appropriate calculator based on the printer type. We call this appropriate calculator  ":ref:`inner calculator <inner-calculator>`" throughout the functions. 

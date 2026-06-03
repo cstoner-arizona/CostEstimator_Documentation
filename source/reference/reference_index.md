@@ -8,6 +8,8 @@ Hello I am a index reference to all API and Reference materials!
   :caption: Reference Sections
 
 managers/config_manager.py
+managers/ConfigAPI
+managers/HowNewSTLDataGetsInputedIntoConfigManager
 json/JsonDefaults
 json/JsonDefinitions
 json/JsonFilesInfo
@@ -18,14 +20,15 @@ models/technology_model.py
 models/setting_model.py
 models/range_model.py
 models/metadata_model.py
-models/material_setting_model.py
-models/materials_model.py
 valdiator/schema_validator.py
 valdiator/setting_validator.py
 calculator/base.py
 calculator/Calculator
 calculator/setting_calculator.py
-calculator/Spe
-
+calculator/SpecificCalculator
+materials/material_setting_model.py
+materials/materials_model.py
+validator/schema_validator.py
+validator/setting_validator.py
 ```
 

@@ -26,6 +26,8 @@ myst_enable_extensions = [
     "deflist"
 ]
 
+html_static_path = ['explanation/_static']
+
 templates_path = ["_templates"]
 exclude_patterns = []
 

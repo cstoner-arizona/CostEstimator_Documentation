@@ -1,15 +1,15 @@
 
 (SpecificCalculator)=
 # Specific Calculator
-: Each of the specific calculators will be the lowest level instantiated object for processing the calculations. 
-: Each has a Dispatch Table (below) which is used to map setting names to callable functions which will update that variable 
+- Each of the specific calculators will be the lowest level instantiated object for processing the calculations. 
+- Each has a Dispatch Table (below) which is used to map setting names to callable functions which will update that variable 
 
 (DispatchTable)=
+## Dispatch Table
 The dispatch table is a mapping from valid [json setting names](#JsonFilesInfo) to their local callable functions that will be called if that setting name ever needs 
 
 (SettingUpdateMethod)=
 ## Update functions
-example
 ```python
 # CostEstimator/config/calculator/backends/binder_jetting.py
 def update_total_sand_used_per_build(self, override_original: bool) -> bool:
@@ -32,12 +32,11 @@ def update_total_sand_used_per_build(self, override_original: bool) -> bool:
 		return True # Newly Calc. setting was new and updated so return True
 	return False # Newly Calc. setting was not new 
 ```
-: Whenever the [depends on](#calculated-setting) attribute of a setting gets changed, then the arguments for calling the [calculate](#SettingCaculateMethod) method change so make sure to change those. 
-: Whenever the **Name** of a setting gets changed you have to change the if statement in its update function 
+- Whenever the [depends on](#calculated-setting) attribute of a setting gets changed, then the arguments for calling the [calculate](#SettingCaculateMethod) method change so make sure to change those. 
+- Whenever the **Name** of a setting gets changed you have to change the if statement in its update function 
 
 (SettingCaculateMethod)=
 ## Calculate functions
-example
 {lineno-start=1 emphasize-lines="18,19"}
 ```python
 @staticmethod
@@ -63,7 +62,6 @@ def _calculate_total_binder_used_per_build(
 ```
 Notice in this example that the 2 values are divided by 100, this is because for percentages or ratios it makes more sense to ask the user for a value between 0-100 rather than 0-1.0. 
 
-example
 {lineno-start=1 emphasize-lines="21,22"}
 ```python
 @staticmethod
@@ -92,4 +90,4 @@ def _calculate_material_cost_per_part(
 ```
 Notice in this example that we have a less than zero check for batch size. That is because we dont want to do a division by zero which would cause it to crash. We'd rather return a setting range that is 0-0 because that value of zero could be a user typo. 
 
-: Whenever the [depends on](#calculated-setting) attribute gets changed for a setting then the **parameters for the calculate functions must change**. Actually almost all of the this function must be changed (params, docstring, and computation)
+Whenever the [depends on](#calculated-setting) attribute gets changed for a setting then the **parameters for the calculate functions must change**. Actually almost all of the this function must be changed (params, docstring, and computation)

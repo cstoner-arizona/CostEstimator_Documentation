@@ -21,4 +21,5 @@ The guide breaks down the installation process for developers whether you're wor
 
 how-to/getting-started
 reference/reference_index
+explanation/explanation_index
 ```

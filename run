@@ -1,3 +1,0 @@
-#!/bin/bash
-anaconda-project run build
-anaconda-project run runserver

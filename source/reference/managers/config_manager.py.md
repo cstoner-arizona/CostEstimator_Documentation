@@ -138,3 +138,4 @@ The string names discussed in the functions above can be found in the JSON defin
 ## Notes/Warnings
 
 - Edge cases, performance considerations, gotchas, commit mistakes people can make 
+![OnInitialization.png](OnInitialization.png)

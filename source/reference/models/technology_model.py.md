@@ -1,4 +1,4 @@
-e(TechnologyModel)=
+(TechnologyModel)=
 # Technology Model
 - **CostEstimator/config/models/technology_model.py**
 - This class models and stores all data needed for a specific additive manufacturing technology. (e.g. Binder Jetting Sand Casting, Machining, Traditional Investment Casting)
@@ -111,6 +111,7 @@ Private method skipped (`_create_range_setting`)
 
 Private method skipped (`_create_normal_setting`)
 
+(TechnologyProcessSTL)=
 process_STL_inputs(new_stl_input_data): This function takes a dictionary of setting names that are based on STL sliced data from Cura and their values. It will loop over all the setting names to update their values, and after each setting we update we will recalculate that settings dependents so the higher up [calculated settings](#calculated-setting) get updated. 
 
 Private method skipped (`_validate_range_value`)
