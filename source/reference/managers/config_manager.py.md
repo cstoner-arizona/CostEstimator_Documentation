@@ -62,6 +62,37 @@ A large number of activities happen upon initialization that it requires its own
    :rtype: Dict[str, Technology] or None
    :raises ValueError: If data_dict or schema_dict is empty, or if a technology type in data_dict is not present in schema_dict.
    :raises TypeError: If data_dict or schema_dict are not a dictionary, or if an invalid technology type is encountered.
+   
+   
+.. py:function:: process_STL_inputs(new_stl_input_data: dict[str, float])
+
+   Processes STL input data by forwarding it to the currently selected technology.
+
+   Called from ``Config_api.py`` after the estimator passes sliced STL file data
+   into ``config_api.inputSTLData()``. The data is then forwarded to the currently
+   selected technology to update its relevant settings.
+
+   .. note::
+      This function assumes the dictionary given has the proper types for all keys and values.
+
+   :param dict[str, float] new_stl_input_data: STL setting names as keys and their
+       corresponding sliced float values.
+   :return: None
+
+
+.. py:function:: reset_all_slice_first_settings_to_zero()
+
+   Resets all slice-first JSON settings to zero across every technology.
+
+   Iterates over all technologies and calls ``reset_slice_first_settings_to_zero()``
+   on each, then calls ``refreshSettings()``. This ensures STL values from a previously
+   calculated part do not persist when the Cost Estimator plugin is reopened, even if
+   the same part is reloaded.
+
+   .. seealso::
+      GitHub Issue #101
+
+   :return: None
 ```
 
 ### QML Slots

@@ -5,8 +5,6 @@
 - Think of it like this `Technology -> SettingCalculator <Interface> -> SpecificCalculator object that inherits Base.py` 
 
 
-
-
 ## Purpose/Motivation
 
 - What problem does this solve?
@@ -86,6 +84,13 @@ def __setitem__(self, setting_name, value, /):
 	this function will be givin a setting name that is expected to be a :ref:`Caclulated Setting <calculated-setting>` and it will call upon the :ref:`inner calculator <inner-calculator>` to calculate the setting name given. It will recursively update this settings dependencies first, then it will calculate itself after all of those are updated. 
 	
 	:param str setting_name: The string setting name of the setting that is wanted to be calculated again. 
+	
+	
+.. py:method:: rerun_initialization_on_gui_reopen(self)
+	See issue #101 in github
+        This function will tell the actual calculator to initialize its values again after the user opened the Plugin for its 2+ time. This function will be called because after the technology resets all of its slice first = true settings to zero it should recalculate any and all settings to what they would show if the user just launched cura and launched the plugin for the first time.
+
+        A key example is Powder bed fusion "Machine Cost Per part" on the first launch is 80 - 1800 for some reason. Keep in mind at this point the user hasnt even loaded in a part. Its just like that. When working on issue #101 I want to make sure that the values -- even if weird -- are the exact same as if they launch it the first time.
 ```
 
 

@@ -29,31 +29,91 @@ This checks if a setting object has a `depends_on` list. If it does it will save
 
 ## Key Methods/Functions
 
-set_calculated(calculated_value, override_original): 
-: Given a new calculated value it sets this setting objects value to be the new value given. If `override_original` is set to `True` then the original value will be overwriten. You might want to overwrite a original when you are settings file from the user, or on CostEstimator plugin initialization, or when STL inputs are loaded because it makes sense for them to be loaded as originals. 
-: This function assumes  it is only called on settings marked as `user_defined=false` in the [json definitions](#JsonDefinitions). 
+```{eval-rst}
 
-  
+.. py:function:: set_calculated(calculated_value, override_original)
 
-validate():
-: This function will do nothing besides raise an error whenever we try to validate this setting and there were errors. 
-:::{seealso}
-This uses the [SettingValidator](#SettingValidator) to check for errors.
-:::
+   Sets this setting object's value to the new calculated value provided.
 
-validate_new_value(value):
-: Works just like `validate()` above but instead of pulling the self.value when calling the [SettingValidator](#SettingValidator) it will pass in the `value` given. 
-  
-revert():
-: This function will set the `self.value = self.original_value`{l=python} and `self.is_modified = False`{l=python} 
+   If ``override_original`` is ``True``, the original value will also be overwritten.
+   Overwriting the original is appropriate when loading settings from a user file,
+   on Cost Estimator plugin initialization, or when STL inputs are loaded.
 
-get_save_format(): -> `Dict[str, str|float|bool| List[int|float] ]`
-: This returns a dictionary mapping the setting name to its value to be suitable for writing to json 
+   .. note::
+      This function assumes it is only called on settings marked as ``user_defined=false``
+      in the JSON definitions.
 
-\_\_setitem\_\_(key,value):
-: This will allow a dictionary type of notation when changing a settings name or value e.g. `settingObj["value"] = 10.0`{l=python}. This function will do type checking against its original given type and what the new `value` givens type is before setting `self.value`{l=python} to the new value. Same for `settingObj["name"] = "newSettingName"`{l=python}
-: This function raises KeyError, or ValueError if the types of the inputs don't match the schema or expected type of the setting
+   :param calculated_value: The new calculated value to assign to this setting.
+   :param bool override_original: If ``True``, overwrites the original value in addition
+       to the current value.
+   :return: None
 
+
+.. py:function:: validate()
+
+   Raises an error if any validation errors exist for this setting, otherwise does nothing.
+
+   .. seealso::
+      Uses :ref:`SettingValidator` to check for errors.
+
+   :return: None
+   :raises ValueError: If the setting has validation errors.
+
+
+.. py:function:: validate_new_value(value)
+
+   Validates a given value against this setting without modifying ``self.value``.
+
+   Behaves identically to :func:`validate` except it passes ``value`` to the
+   :ref:`SettingValidator` rather than using ``self.value``.
+
+   :param value: The candidate value to validate.
+   :return: None
+   :raises ValueError: If the provided value fails validation.
+
+
+.. py:function:: revert()
+
+   Reverts this setting to its original value and clears its modified flag.
+
+   Sets ``self.value = self.original_value`` and ``self.is_modified = False``.
+
+   :return: None
+
+
+.. py:function:: get_save_format()
+
+   Returns a dictionary representation of this setting suitable for writing to JSON.
+
+   :return: A dictionary mapping the setting name to its value.
+   :rtype: Dict[str, str | float | bool | List[int | float]]
+
+
+.. py:function:: __setitem__(key, value)
+
+   Enables dictionary-style assignment for a setting's ``name`` or ``value``.
+
+   Performs type checking against the setting's original type before applying
+   the new value. For example: ``settingObj["value"] = 10.0`` or
+   ``settingObj["name"] = "newSettingName"``.
+
+   :param str key: The attribute to set; must be ``"value"`` or ``"name"``.
+   :param value: The new value to assign. Must match the expected type for the given key.
+   :return: None
+   :raises KeyError: If ``key`` is not a recognized attribute of the setting.
+   :raises ValueError: If the type of ``value`` does not match the schema or expected type.
+
+
+.. py:function:: reset_to_zero()
+
+   Resets this setting's current value, original value, and modified flag to zero.
+
+   Used to clear slice-first settings (``slice_first=True``) back to zero when
+   the user reloads the plugin, preventing stale STL values from a previous session
+   from persisting.
+
+   :return: None
+```
   
 
 ## Important Attributes/Properties
@@ -100,6 +160,8 @@ dropdown_options is not currently used, but if used there should be little chang
 
 `is_modified: bool`{l=python}
 : When a user changes a setting in the GUI this is changed to be `True` and will -- through various connections to pyqt -- enable the "Save Changes" button to light up and be enabled.
+
+
 
   
 

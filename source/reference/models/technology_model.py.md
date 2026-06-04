@@ -116,6 +116,12 @@ process_STL_inputs(new_stl_input_data): This function takes a dictionary of sett
 
 Private method skipped (`_validate_range_value`)
 
+reset_slice_first_settings_to_zero(): This function will loop over all setting objects in this technology  
+and for each "slice_first"=True setting it will set it to zero.  
+This function is not used the first time the plugin is launched because all stl  
+values are already zero. But each time after that this function will be called.  
+See issue #101 on github
+
 ## Important Attributes/Properties
 self.type: str 
 : the name of the technology, it should be pulled from the meta data key in the [json files](#JsonFilesInfo)

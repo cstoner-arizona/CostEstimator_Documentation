@@ -35,8 +35,47 @@ This example shows that we use
 
 ## Key Methods/Functions
 ```{eval-rst}
-.. py:method:: __
+.. py:method:: __init__(self, settings: Dict[str, Setting]):
+	
+	This will initialize the SettingDependencyTracker and Bbuild dependency trees for a single printer type. This init will use the settings dict passed in to create a dictionary mappping the setting names to teir `ref:depends on <how-to-use-depends-on-attr>` lists. 
+	
+	:param dict settings: A dictionary mapping `ref: json setting names <how-to-use-name-attr>` to `ref: setting objects <SettingModel>`
+	
+.. py:method:: has_dependencies(self, setting_name: str):
 
+	Checks if the setting has any dependencies (children)
+	
+	:param str setting_name: The name of the setting we are checking
+
+	:return: True if the setting name given has dependecies (chilren), false if not
+	:rtype: boolean 
+	
+.. py:method:: has_dependents(self, setting_name: str):
+	Not to be confused with `has_dependencies()`
+	This checks if the setting has any DEPENDENTS (parents)
+	
+	:param str setting_name: The name of the setting we are checking
+	:return: True if the setting name given has dependents (parents), false if not
+	:rtype: boolean
+	
+.. py:method:: get_direct_dependents(self, setting_name: str):
+	Return the list of direct dependants of this setting
+	Think about this as asking "What settings RELY on this setting given?"
+	
+	:param str setting_name: The name of the setting we want the dependents (parents) of
+	
+	:return: A list of other setting names that rely on the setting name given. Or a empty list if the setting is pretty high level like 'total_cost' which has no settings reliant on itself
+	:rtype: List[Str]
+	
+.. py:method:: get_direct_dependencies(self, setting_name: str):
+	Return the list of direct dependencies of this setting
+	Think about this as asking "What settings does this setting rely on?"
+	
+	:param str setting_name: The name of the setting we want the dependencies (children) of
+	:return: A list of other setting names that this setting relies on. Or a empty list if the setting is pretty high level like 'total_cost' which has no settings reliant on itself
+	:rtype: List[Str]
+	
+..
 ```
 
 

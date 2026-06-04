@@ -1,0 +1,76 @@
+name: Deploy Docs to GitHub Pages
+
+# Deploy only on push and PR to main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Only one deployment at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# Fix Node.js 20 actions depreciation
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # Build from Sphinx source
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Create conda environment
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-activate: true
+          activate-environment: base
+          conda-remove-defaults: true
+
+      # Add conda-forge channel to conda environment
+      - name: Config conda channels
+        run: |
+          conda config --append channels defaults
+          conda config --append channels conda-forge
+        shell: bash -el {0}
+
+      - name: Install anaconda-project
+        run: conda install -y -c conda-forge anaconda-project setuptools entrypoints
+        shell: bash -el {0}
+
+      # build command defined in anaconda-project.yaml
+      - name: Build Sphinx docs
+        run: anaconda-project run build
+        shell: bash -el {0}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  # Deploy from ./build
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   # Stops deploy job if PR, only deploy after PR accepted.
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #
+  #   permissions:
+  #     pages: write
+  #     id-token: write
+  #
+  #   environment:
+  #     name: github-pages
+  #     url: ${{steps.deployment.outputs.page_url}}
+  #
+  #   steps:
+  #     - name: Deploy to GH Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v4
