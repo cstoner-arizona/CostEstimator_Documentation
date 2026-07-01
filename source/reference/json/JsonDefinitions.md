@@ -69,6 +69,7 @@ This is a reference of a **calculated** setting. This is because it has both a "
 - You will see in the example above that it is Material Dependent. It will have a different value for each material. This makes sense because the setting is called "specific_energy_to_melt_metal" which should change per material. 
 - Every *Material Dependent Setting* must have `"material_dependent": true` and have `"materials": [listOfMaterialNames]` set 
 - The "materials" attribute must **only** have material names that can be found in `"metadata": "compatible_materials" : "anySubCategory"` or else the validator will not allow the plugin to launch. Look below in [How to use materials attribute](#how-to-use-materials-attr).
+- The "materials" list attribute **MUST** have **EVERY** material within a material group (defined in the metadata). This means for the example above, if the setting defines a value for "in625" then it **MUST** define a value for all of the other materials in that material group, ("alsi10mg", "alsi7mg0.6", "316_l_stainless_steel" for this example, but if might be different ones if its a different material group)
 - Make sure you set the [Json Defaults](#JsonDefaults) appropriately for material dependent settings. You can see how to in the Json defaults page under the [Material Dependent Settings](#setting-material-dependent-default).
 
 {#calculated-setting}

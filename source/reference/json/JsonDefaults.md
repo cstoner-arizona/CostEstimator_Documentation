@@ -37,8 +37,9 @@ If the type is
 ### When working with material dependent setting defaults
 1. You must have the value of the defaults be a dictionary. 
 2. The dictionary will be filled with keys that are the name of the materials it depends one.
-3. The dictionary values will be the default for that setting and that setting specific material. 
-4. Remember that the [type of that setting](#how-to-set-each-default-setting-type) should match for all defaults values for all specific materials. 
+3. The "materials" dictionary **MUST** have **EVERY** material within a material group (defined in the metadata). This means for the example below, if the setting defines a value for "in625" then it **MUST** define a value for all of the other materials in that material group, ("alsi10mg", "alsi7mg0.6", "316_l_stainless_steel" for this example, but if might be different ones if its a different material group)
+4. The dictionary values will be the default for that setting and that setting specific material. 
+5. Remember that the [type of that setting](#how-to-set-each-default-setting-type) should match for all defaults values for all specific materials. 
 Example
 ```json
 "unit_metal_cost": {
