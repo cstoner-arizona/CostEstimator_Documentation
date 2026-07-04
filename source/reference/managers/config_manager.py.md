@@ -98,8 +98,8 @@ A large number of activities happen upon initialization that it requires its own
 ### QML Slots
 
 Contains both getters and setters which are triggered from the QML component.
-Getters will get data from various data structures (mostly [Technology](#TechnologyModel)) in order to populate the QML with information such as printer technology types that are selectable, the categories (#TODO Link what category names are in JSON details) of data within each technology, and the individual parameter values with their names.
-Setters will set data from a QML based input such as the dropdown box for selectable materials (#TODO Add materials cross-ref) and individual parameter values.
+Getters will get data from various data structures (mostly [Technology](#TechnologyModel)) in order to populate the QML with information such as printer technology types that are selectable, the categories (e.g. "machine_cost", "material_cost") of data within each technology, and the individual parameter values with their names.
+Setters will set data from a QML based input such as the dropdown box for selectable materials (e.g. "In718", "FDM:PLA") and individual parameter values.
 
 :::{note}
 :name: qml-slot-annotations
@@ -129,6 +129,13 @@ Returns a `list[str]` which are category names given a valid printing technology
 Returns names of all settings in a specific category given the valid printing technology name as a string and a valid category name contained in the technology as a string.
 ```
 
+```{py:method} getCategorySettingNames(tech_type: str, category: str)
+
+*Decorated with* `@pyqtSlot(str, str, result='QVariant')`
+
+Returns names of all settings in a specific category given the valid printing technology name as a string and a valid category name contained in the technology as a string.
+```
+
 ```{eval-rst}
 .. py:function:: getSettingType(tech_type: str, setting_name: str)
 
@@ -141,6 +148,163 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: Name of the setting contained in the printer technology as a string
    :return: The setting's type as a string. Will be same as defined in :ref:`hint-json-string-names`.
    :rtype: str
+```
+
+```{eval-rst}
+.. py:method:: getSettingEditableStatus(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result=bool)``
+
+   This will check if a specific setting for a given tech type is user-editable (user defined).
+   This is used to determine if they box in the config manager GUI should be editable. 
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: True if the setting is user defined, false if not (calculated, stl, buildtime)
+   :rtype: Boolean
+```
+
+```{eval-rst}
+.. py:method:: getSettingDescription(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result=str)``
+
+   Get the description of a specific setting for a given printing type.
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: The string description stored in the 
+   :rtype: Str
+```
+
+```{eval-rst}
+.. py:method:: getSettingValue(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result='QVariant')``
+
+   Get the value of a specific setting within a technology.
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: The value of the setting as a QVariant. Could be Int, Float, List for ranges, or String for config settings. 
+   :rtype: QVariant
+```
+
+```{eval-rst}
+.. py:method:: getSettingUnits(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result=str)``
+
+   Get the json defined units of a specific setting within a technology.
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: math units of the setting. (e.g. "kg" "$" "kW/hr")
+   :rtype: String
+```
+
+```{eval-rst}
+.. py:method:: getSettingDecimalPlaces(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result=str)``
+
+   Get the json defined units of a specific setting within a technology.
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: math units of the setting. (e.g. "kg" "$" "kW/hr")
+   :rtype: String
+```
+
+```{eval-rst}
+.. py:method:: getSettingDecimalPlaces(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result=int)``
+
+   Get the number of decimal places defined within the json for a specific setting.
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: The number of decimal places for the requested setting, or 0 if not found
+   :rtype: int
+```
+
+```
+.. py:method:: getSettingMinimum(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result='QVariant')``
+
+   Get the minimum value for a specific setting for a given printing type.
+
+   :param str tech_type: The type of tech to query.
+   :param str setting_name: The name of the setting to retrieve the minimum value for.
+   :return: The minimum value of the requested setting, or 0 if not found.
+   :rtype: int | float
+```
+
+```
+.. py:method:: getSettingMaximum(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result='QVariant')``
+
+   Get the maximum value for a specific setting for a given printing type.
+
+   :param str tech_type: The type of tech to query.
+   :param str setting_name: The name of the setting to retrieve the maximum value for.
+   :return: The maximum value of the requested setting, or 0 if not found.
+   :rtype: int | float
+```
+
+```{eval-rst}
+.. py:method:: getSettingSTLState(tech_type: str, setting_name: str)
+
+   *Decorated with* ``@pyqtSlot(str, str, result=bool)``
+
+   This function will help the GUI determine if it should show "Press calculate to see" or not based on if the tech_type given has up to date stl data based on wether the plugin was just opened. Once the user presses Calculate then the stl data will appear. 
+
+   :param str tech_type: Printing technology name as a string
+   :param str setting_name: The name of the setting we want to check
+   :return: True if the setting name given is a STL based setting AND the technology given has received up to date STL data from the estimator tab. False if not a STL setting, False if not up to date STL data.
+   :rtype: Boolean
+```
+
+```{eval-rst}
+.. py:method:: getTechnologyMaterialTypes(tech_type: str)
+
+   *Decorated with* ``@pyqtSlot(str, result='QVariant')``
+
+   Returns a list of the material types (material groups) for the technology. For example DLP has "resin" and "metal" so it will return those in a list.
+
+   :param str tech_type: Printing technology name as a string
+   :return: A list of the material types (material groups) for that technology. e.g. ["metal","resin"]
+   :rtype: QVariant
+```
+
+
+#### Functional Slots
+
+```{eval-rst}
+.. py:method:: saveSettings(tech_type: str)
+
+   *Decorated with* ``@pyqtSlot(str, result=int)``
+
+   This will save settings for a specific technology type once the user presses "Save Changes". It saves it out to the user json. The SaveLoadHandler will ask the user for the save location down the line.
+
+   :param str tech_type: Printing technology name as a string
+   :return: The status of the save, Success, Failure, Cancelled.
+   :rtype: int
+```
+
+```{eval-rst}
+.. py:method:: loadSettings(tech_type: str)
+
+   *Decorated with* ``@pyqtSlot(str, result=int)``
+
+   Within the SaveLoadHandler it will ask the user to pick a filename to load, it loads it, then returns the loaded_technoogy as a Technology object. Then this function puts that object in the dictionary of technologies. 
+
+   :param str tech_type: Printing technology name as a string
+   :return: The status of the load, Success, Failure, Cancelled.
+   :rtype: int
 ```
 
 :::{hint}
