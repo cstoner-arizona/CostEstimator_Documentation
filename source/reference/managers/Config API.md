@@ -1,4 +1,4 @@
-
+(ConfigAPI)=
 # Config API
 - This class allows for communication between the [Estimator](#Estimator) tab and the [Config Manger](#ConfigManager) through various functions listed below
 

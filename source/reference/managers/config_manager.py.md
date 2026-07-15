@@ -43,9 +43,19 @@ self._config_window = self._application.createQmlComponent(
 
 The functions utilized are mostly QML Slots that are triggered by GUI elements. Whenever something utilizes the `@pyqtSlot` decorator, it is most likely only ever used within the relevant QML for the config window.
 
-### Init
+### \_\_Init\_\_() Method
+We first create the [FileService](#FileService) object and send it the `CostEstimator/config/resources/data` folder.
+Then the [Schema Validator](#SchemaValidator) and [ConfigAPI](#ConfigAPI) is created.
+Then we validate the [Json Definition](#JsonDefinition) files, and followed by the [Json Default](#JsonDefaults) files.
+Then if there are user files we will validate their files, but if they fail we simply log. 
 
-A large number of activities happen upon initialization that it requires its own section.
+Then we pull the entire [Json Definition](#JsonDefinitions) file and [Json Default](#JsonDefaults) and store it in `self._data_schema` and `self._default_data`. Just so you are aware, these variables are dictionaries with keys being the names of each technology found in its [Jsons metadata](#Metadata), and the values are the *entire* json file for that technology. 
+
+Then we build the dictionary of technologies. This dictionary stores the name of each technology (again the one in the json metadata), and its [technology object](#TechnologyModel) as the value.
+
+Then we store the string of current technology type (name) we first seen in the technologies dictionary we just made. 
+
+Then we initializing the mapping of the current stl data state for each technology. Storing false for each because it will be true once the user presses calculate. This is used to keep track of what to set the yellow "modified" label to visible or not when switching between technologies. See issue [#136](https://github.com/cstoner-arizona/CostEstimator/pull/136)
 
 ### Functions
 
