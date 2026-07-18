@@ -72,9 +72,22 @@ Then we initializing the mapping of the current stl data state for each technolo
    :rtype: Dict[str, Technology] or None
    :raises ValueError: If data_dict or schema_dict is empty, or if a technology type in data_dict is not present in schema_dict.
    :raises TypeError: If data_dict or schema_dict are not a dictionary, or if an invalid technology type is encountered.
-   
-   
-.. py:function:: process_STL_inputs(new_stl_input_data: dict[str, float])
+```
+
+### Methods
+```{eval-rst}
+.. py:method:: check_tech_type(tech_type: str)
+
+	This method will check if the tech_type string name given is in the dictionary of technologies as a key. If its not it will raise a TechTypeNotFound() exception. 
+	
+	:param str tech_type: The name of a technology. It should be pulled from the :ref:`json metadata<Metadata>`
+	:Raises TechTypeNotFound: If the tech_type given is not in self.technologies.keys()
+
+
+
+
+
+.. py:method:: process_STL_inputs(new_stl_input_data: dict[str, float])
 
    Processes STL input data by forwarding it to the currently selected technology.
 
@@ -90,19 +103,36 @@ Then we initializing the mapping of the current stl data state for each technolo
    :return: None
 
 
-.. py:function:: reset_all_slice_first_settings_to_zero()
 
-   Resets all slice-first JSON settings to zero across every technology.
 
-   Iterates over all technologies and calls ``reset_slice_first_settings_to_zero()``
-   on each, then calls ``refreshSettings()``. This ensures STL values from a previously
-   calculated part do not persist when the Cost Estimator plugin is reopened, even if
-   the same part is reloaded.
 
-   .. seealso::
-      GitHub Issue #101
+.. py:method:: switchCurrentTypeDuringSTLInput(new_tech_type: str)
 
-   :return: None
+	This function is called in the :ref:`ConfigAPI` if the :ref:`Estimator` is sending STL data for a technology that is not currently the selected technology of the config manager. This will be called to change the current technology to the one needing to be updated. 
+	Think about it like this
+	Estimator --send STL data--> ConfigAPI 
+	
+	ConfigAPI detects ConfigManager type differs from incoming STL data
+	
+	ConfigAPI --> calls this function --> switchTypeDuringSTLInput()
+	
+	ConfigAPI continues updating stl data.
+
+	ConfigAPI --> calls this function --> switch back to original tech
+	
+	:param str new_tech_type: A assumed valid tech type name that we will switch to 
+	:raise: ValueError if the new_tech_type is not a valid type name
+	
+
+
+	
+
+.. py:method:: reset_all_technologies_stl_states()
+
+	This method is called when the user loads the plugin from the drop down in the Cura plugins. This method will reset the STL state of all technologies to be 'not valid stl data' so it will show "Press Calculate to see"
+	
+	
+
 ```
 
 ### QML Slots
@@ -122,6 +152,111 @@ QML Slots require their own decorator/annotation in order to be used by QML. Thi
 The type `QVariant` is used within the `@pyqtSlot` decorator syntax as a way to unionize Python logic with C++ objects that PyQt6 is built off of. For example, a `list` object in Python needs to be translated to an `array` within C++ and a `QVariant` is used to account for this different. (Note that usage in `@pyqtSlot` must surround `QVariant` with `'`). See PyQt6 [`QVariant`](https://www.riverbankcomputing.com/static/Docs/PyQt6/api/qtcore/qvariant.html#QVariant) for further information.
 :::
 
+
+#### Functional Slots
+
+```{eval-rst}
+.. py:method:: saveSettings(tech_type: str)
+
+   *Decorated with* ``@pyqtSlot(str, result=int)``
+
+   This will save settings for a specific technology type once the user presses "Save Changes". It saves it out to the user json. The SaveLoadHandler will ask the user for the save location down the line.
+
+   :param str tech_type: Printing technology name as a string
+   :return: The status of the save, Success, Failure, Cancelled.
+   :rtype: int
+
+
+
+
+
+.. py:method:: loadSettings(tech_type: str)
+
+   *Decorated with* ``@pyqtSlot(str, result=int)``
+
+   Within the SaveLoadHandler it will ask the user to pick a filename to load, it loads it, then returns the loaded_technoogy as a Technology object. Then this function puts that object in the dictionary of technologies. 
+
+   :param str tech_type: Printing technology name as a string
+   :return: The status of the load, Success, Failure, Cancelled.
+   :rtype: int
+   
+   
+   
+.. py:method:: discardChanges(tech_type)
+
+   *Decorated with* ``@pyqtSlot(str, result=bool)``
+   :param str tech_type: Printing technology name as a string
+   
+   This method will tell the technology object to `.revert_all_settings()` to their originals. Then this method emits :ref:`modifiedChanged <modifiedChangedSignal>` and :ref:`settingsDataDiscarded <settingsDataDiscardedSignal>`.
+   
+   :return: True if the settings were successfuly reverted to originals. False otherwise
+   :rtype: Boolean
+   
+   
+   
+   
+.. py:method:: discardAllChanges()
+
+   *Decorated with* ``@pyqtSlot(result=bool)``
+   
+   This method will tell the EVERY technology object to `.revert_all_settings()` to their originals. Then this method emits :ref:`modifiedChanged <modifiedChangedSignal>` and :ref:`settingsDataDiscarded <settingsDataDiscardedSignal>`.
+   
+   :return: True if ALL of the settings were successfuly reverted to originals. False otherwise
+   :rtype: Boolean
+   
+   
+   
+   
+.. py:method:: refreshSettings()
+
+   *Decorated with* ``@pyqtSlot()``
+   
+   This method does only 1 thing. This method will emit :ref:`updateSetting signal <updateSettingSignal>`. 
+
+
+
+
+
+.. py:method:: title(text)
+
+	*Decorated with* ``@pyqtSlot(str, result='QVariant')``
+	:param str text: The input text to convert
+	
+	This method will be given a string that is expected to have underscores and lowercase and convert the underscores to spaces and turn the text title case.
+	
+	:return: text.replace('_', ' ').title()
+	:rtype: str
+	
+	
+	
+	
+	
+.. py:method:: anyTechnologyIsModifed()
+
+	*Decorated with* ``@pyqtSlot(result=bool)``
+	
+	This method will compute if any technologies are currently modified, and if so it returns True. If all are unmodified it returns False. This method will be called when the user tries to leave the plugin to determine if we should prompt them to discard all changes or not.
+	
+	:return: True if at least 1 technology IS modified, False if all unmodified. 
+	:rtype: Boolean
+	
+	
+	
+	
+	
+
+.. py:method trigger_modifiedChanged()
+
+	*Decorated with* ``@pyqtSlot()``
+	This method will emit the :ref:`modifiedChanged Signal <modifiedChangedSignal>`. This method only does 1 thing. 
+	This method is called whenever a user selects a different technology because the `config_manager.modified` pyqtProperty will get sent out to its dependents (i.e. Yellow "Modified" gui label) once the :ref:`modifiedChanged signal<modifiedChangedSignal>` is emited. Its kind of a weird loophole. QML onClick -> PythonSlot -> Emit Signal -> QT Property recomputed -> QML Dependent gets updated data.
+   
+   
+   
+
+   
+```
+
 #### Getters
 
 ```{py:method} getAllCategories(tech_type: str)
@@ -133,14 +268,6 @@ Returns a `list[str]` which are category names given a valid printing technology
 ```
 
 ```{py:method} getCategorySettingNames(tech_type: str, category: str)
-
-*Decorated with* `@pyqtSlot(str, str, result='QVariant')`
-
-Returns names of all settings in a specific category given the valid printing technology name as a string and a valid category name contained in the technology as a string.
-```
-
-```{py:method} getCategorySettingNames(tech_type: str, category: str)
-
 *Decorated with* `@pyqtSlot(str, str, result='QVariant')`
 
 Returns names of all settings in a specific category given the valid printing technology name as a string and a valid category name contained in the technology as a string.
@@ -158,9 +285,11 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: Name of the setting contained in the printer technology as a string
    :return: The setting's type as a string. Will be same as defined in :ref:`hint-json-string-names`.
    :rtype: str
-```
 
-```{eval-rst}
+
+
+
+
 .. py:method:: getSettingEditableStatus(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result=bool)``
@@ -172,9 +301,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting we want to check
    :return: True if the setting is user defined, false if not (calculated, stl, buildtime)
    :rtype: Boolean
-```
 
-```{eval-rst}
+
+
+
 .. py:method:: getSettingDescription(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result=str)``
@@ -185,9 +315,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting we want to check
    :return: The string description stored in the 
    :rtype: Str
-```
 
-```{eval-rst}
+
+
+
 .. py:method:: getSettingValue(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result='QVariant')``
@@ -198,9 +329,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting we want to check
    :return: The value of the setting as a QVariant. Could be Int, Float, List for ranges, or String for config settings. 
    :rtype: QVariant
-```
 
-```{eval-rst}
+
+
+
 .. py:method:: getSettingUnits(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result=str)``
@@ -211,22 +343,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting we want to check
    :return: math units of the setting. (e.g. "kg" "$" "kW/hr")
    :rtype: String
-```
 
-```{eval-rst}
-.. py:method:: getSettingDecimalPlaces(tech_type: str, setting_name: str)
 
-   *Decorated with* ``@pyqtSlot(str, str, result=str)``
 
-   Get the json defined units of a specific setting within a technology.
 
-   :param str tech_type: Printing technology name as a string
-   :param str setting_name: The name of the setting we want to check
-   :return: math units of the setting. (e.g. "kg" "$" "kW/hr")
-   :rtype: String
-```
-
-```{eval-rst}
 .. py:method:: getSettingDecimalPlaces(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result=int)``
@@ -237,9 +357,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting we want to check
    :return: The number of decimal places for the requested setting, or 0 if not found
    :rtype: int
-```
 
-```
+
+
+
 .. py:method:: getSettingMinimum(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result='QVariant')``
@@ -250,9 +371,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting to retrieve the minimum value for.
    :return: The minimum value of the requested setting, or 0 if not found.
    :rtype: int | float
-```
 
-```
+
+
+
 .. py:method:: getSettingMaximum(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result='QVariant')``
@@ -263,9 +385,22 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting to retrieve the maximum value for.
    :return: The maximum value of the requested setting, or 0 if not found.
    :rtype: int | float
-```
 
-```{eval-rst}
+
+
+.. py:method:: getSettingDropdownOptions(tech_type, setting_name)
+
+	:param str tech_type: The type of tech to query 
+	:param str setting_name: The name of the setting to retrieve dropdown options for.
+	
+	This function is not used because there are not settings that are drop downs.
+
+	:return: The dropdown options for the resquested setting, or an impty list if not found. 
+	:rtype: List
+
+
+
+
 .. py:method:: getSettingSTLState(tech_type: str, setting_name: str)
 
    *Decorated with* ``@pyqtSlot(str, str, result=bool)``
@@ -276,9 +411,10 @@ Returns names of all settings in a specific category given the valid printing te
    :param str setting_name: The name of the setting we want to check
    :return: True if the setting name given is a STL based setting AND the technology given has received up to date STL data from the estimator tab. False if not a STL setting, False if not up to date STL data.
    :rtype: Boolean
-```
 
-```{eval-rst}
+
+
+
 .. py:method:: getTechnologyMaterialTypes(tech_type: str)
 
    *Decorated with* ``@pyqtSlot(str, result='QVariant')``
@@ -288,33 +424,75 @@ Returns names of all settings in a specific category given the valid printing te
    :param str tech_type: Printing technology name as a string
    :return: A list of the material types (material groups) for that technology. e.g. ["metal","resin"]
    :rtype: QVariant
+   
+   
+   
+   
+.. py:method:: getMaterialSelection(tech_type, material_type)
+
+	:param str tech_type: The tech type that we want to pull the sub materials from
+	:param str material_type: The name of the group of materials we want to pull from (e.g. 'metal'). These categories are the keys in compatible materials in :ref:`Metadata` values.
+	
+	This function will return a Title case version of the sub material names within a material group. These will be used to populate the material selection drop downs in the GUI.
+	
+	:return: A list of title case strings pulled from the list of specific material names within the :ref:`json <JsonFilesInfo>` :ref:`Metadata`
+	:rtype: List
+	
+
+
+
+.. py:method:: determineCurrentMaterialIndex(tech_type_name, material_type)
+
+	:param stl tech_type_name: The name of the technology. its the json metadata name
+	:param str material_type: The name of the material GROUP. (e.g. 'Metals', 'Slurry')
+	
+	This function will be called when the user selects another technology in the gui. This function determines which material from the material group is currently being displayed by the settings in the technology. Then to be able to change the current material in the material selector GUI this fucntion will return the index that the gui has to set that dropdown index to. The docstring in the source code gives more in depth example. 
+	
+	:return: Index that maps to the material in the GUI material drop down for the given material group
+	:rtype: int
+	
+	
+	
+	
+	
+
+
 ```
 
-
-#### Functional Slots
-
+#### Setters 
 ```{eval-rst}
-.. py:method:: saveSettings(tech_type: str)
+.. py:method:: setSettingValue(tech_type, value, range_type)
 
-   *Decorated with* ``@pyqtSlot(str, result=int)``
+	:param str tech_type: String that represent the type of tech to query. Must be a valid name
+	:param str setting_name: The name of the setting that will be altered
+	:param str value: The value that is overwriting a given setting value, given as a string, converted to correct type later. 
+	:param str range_type: Optional setting. It is to specify the types for the min and max of the range if the new value is a range
+	
+	*Decorated with* ``@pyqtSlot(str, str, str, result=bool)`` and ``@pyqtSlot(str, str, str, str, result=bool)``
+	
+	This set the specific setting value for a given technology.
+	It will emit the :ref:`modifiedChanged <modifiedChangedSignal>`, and :ref:`updateSetting <updateSettingSignal>` signals 
+	
+	:return: It returns True if the value was successfully set, False otherwise
+	:rtype: boolean
+	
+	
 
-   This will save settings for a specific technology type once the user presses "Save Changes". It saves it out to the user json. The SaveLoadHandler will ask the user for the save location down the line.
+.. py:method:: setMaterialSelection(tech_type, material_type, material_name)
 
-   :param str tech_type: Printing technology name as a string
-   :return: The status of the save, Success, Failure, Cancelled.
-   :rtype: int
-```
+	:param str tech_type: Technology type that is being selected for material change
+	:param str material_type: The type of material being changed (e.g., "filament", "resin").
+	:param str material_name: The name of the material to select (e.g., "alsi10mg", "316_l_stainless_steel").
+	
+	This function will change all material dependent settings within the technology to the material name given. Notice we do not need the `material_type` (material group), we only pass it for logging. This will emit the :ref:`modifiedChanged Signal <modifiedChangedSignal>` and :ref:`updateSetting Signal<updateSettingSignal>`. Then this method returns True if the change was successful and False if not.
+	
+	:return: True if the material change was successful, False if not
+	:rtype: Boolean
+	
+	
+	
+	
 
-```{eval-rst}
-.. py:method:: loadSettings(tech_type: str)
-
-   *Decorated with* ``@pyqtSlot(str, result=int)``
-
-   Within the SaveLoadHandler it will ask the user to pick a filename to load, it loads it, then returns the loaded_technoogy as a Technology object. Then this function puts that object in the dictionary of technologies. 
-
-   :param str tech_type: Printing technology name as a string
-   :return: The status of the load, Success, Failure, Cancelled.
-   :rtype: int
 ```
 
 :::{hint}
@@ -324,15 +502,83 @@ The string names discussed in the functions above can be found in the JSON defin
 
 ## Important Attributes/Properties
 
+{#ConfigManagerCurrentType}
 ```{eval-rst}
 .. py:property:: file_service
-   :type: FileService
+   :type: :ref:`FileService`
+   
+   
+.. py:property:: current_type
+	:type: String
+	
+	Holds the name of the currently selected technology in the GUI. This "name" is the same string as found in that technologies :ref:`json metadata <Metadata>`.
+	
+
+.. py:property:: schema_validator
+	:type: :ref:`SchemaValidator`
+	
+	
+.. py:property:: api
+	:type: :ref:`ConfigAPI`
+	
+	
+.. py:property:: _data_schema
+	:type: Dict[tech_name, Dict[category_name, Dict[setting_name, Dict[type,user_defined,material_depenent, etc]]]]
+	
+	Holds a dictionary with the keys being the tech name found in the :ref:`Metadata` and the values being the entire :ref:`defintion json<JsonDefinition>`
+	
+	
+.. py:property:: _default_data
+	:type: Dict[tech_name, Dict[category_name, Dict[setting_name, (list | int | float)]]]
+	
+	Holds a dictionary with the keys being the tech name found in the :ref:`Metadata` and the values being the entire :ref:`default json<JsonDefault>`
+	
+.. py:property:: _user_data
+	:type: Dictionary
+	
+	This property is not used as of July 2026. Its a part of a future feature where we load user saved json 
+	
 ```
 
 ### QML Signals
 
-### QML Properties
+{#updateSettingSignal}
+**updateSetting Signal**: 
 
+{#modifiedChangedSignal}
+**modifedChanged Signal**: 
+
+{#currentTypeChangedSignal}
+**currentTypeChanged Signal**:
+
+{#settingsDataDiscardedSignal}
+**settingsDataDiscarded Signal**:
+
+
+### QML Properties
+*Note*: These properties are PyQt properties. This means that they are called in QML with the format `configManagerObj.propertyname`.
+These properties have a really nice trait where we can add a `notify=mySignalNameHere` within their pyqtProperty decorator so that anytime that `mySignalNameHere` signal is emitted, this property will be "called" and will send out its result to every QML bound attribute that depends on it. 
+
+```{eval-rst}
+.. py:property:: types
+	:type: list
+	
+	*Decorated with* ``@pyqtProperty(list, notify=settingsDataDiscarded)``
+	
+	
+.. py:property:: modified
+	:type: Boolean
+	
+	This will return True if the `self.current_type` of technology is currently modified
+	
+.. py:property:: currentType
+	:type: Str
+	
+	Returns the currently selected technology type in the GUI.
+	`self.currentType` also has a getter which will emit :ref:`currentTypeChanged Signal <currentTypeChangedSignal>` and :ref:`settingsDataDiscarded Signal <settingsDataDiscardedSignal>`
+	
+
+```
 - What can the user access or modify?
 
   

@@ -4,6 +4,24 @@ Json Files are the back bone of this plugin. They hold all the data needed for e
 
 For every technology type you need a [Definition File](#JsonDefinitions) and a [Defaults File](#JsonDefaults)
 
+
+## Json Files format
+{#JsonFilesFormat}
+```json
+{
+	"metadata" : {}
+	"category1" : {
+		"setting1": "ValueOrDefinition Depending on file",
+		"setting2": "^^^",
+		"setting3": "^^^"
+		}
+	"category2" : {
+		"setting4": "ValueOrDefinition Depending on file",
+		"setting5": "^^^",
+		"setting6": "^^^"
+	}
+}
+```
 ## Maintenance, Updates, Changes to Json Files 
 ### Name changes for json settings
 If the name of a json setting changes it is required to make a sweeping change to all occurrences inside the calculator of that technology. 
