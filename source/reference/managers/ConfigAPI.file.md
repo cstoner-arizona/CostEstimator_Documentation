@@ -110,7 +110,7 @@ This example shows that inside the [Estimator](#Estimator) after getting the spe
 	:param str tech_type: The string name of the technology type this STL data should go to 
 	:param dict[str,float] new_stl_input_data: The dictionary of new stl data, stores name of settings as keys, and their corrisponding float values as values.
 	
-	This function will be called from the Estimator to pass in the newly   gather stl input data from the file sliced. Then from here the new stl   data will trickle down the :ref:`current technology type<ConfigManagerCurrentType>` of the :ref:`config manager <ConfigManager>` and itll update all its stl settings to have this data. Then it will recurse on the dependands of the stl settings and reclaculate them.
+	This function will be called from the Estimator to pass in the newly   gather stl input data from the file sliced. Then from here the new stl   data will trickle down the :ref:`current technology type <ConfigManagerCurrentType>` of the :ref:`config manager <ConfigManager>` and itll update all its stl settings to have this data. Then it will recurse on the dependands of the stl settings and reclaculate them.
 	
 	:return: None
 	
@@ -152,4 +152,5 @@ __ https://github.com/users/cstoner-arizona/projects/2/views/1?filterQuery=133&p
 
 - Edge cases, performance considerations, gotchas, commit mistakes people can make 
 
+{#HowConfigReceviesSTLData}
 ![HowConfigAPIWorks.png](HowConfigAPIWorks.png)
