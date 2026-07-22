@@ -18,7 +18,7 @@
 ## Key Methods/Functions
 get_all_file_paths() -> tuple of 3 dictionaries (def, default, user) mapping the name of the technology to their file path 
 
-load_data() -> tuple of 3 dictionarys (def, default, user) mapping the tech name to a dictionary of their values in the corrisponding [json file](#JsonFIle)
+load_data() -> tuple of 3 dictionaries (def, default, user) mapping the tech name to a dictionary of their values in the corresponding [json file](#JsonFilesInfo)
 
 
 ## Important Attributes/Properties

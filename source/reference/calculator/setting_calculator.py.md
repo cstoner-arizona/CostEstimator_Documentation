@@ -43,6 +43,7 @@ def __setitem__(self, setting_name, value, /):
 
 ## Key Methods/Functions
 ```{eval-rst}
+
 .. py:method:: __init__(printer_type: str, settings: Dict[str, Setting])
 
    Initializes the SettingCalculator instance and selects the appropriate calculator based on the printer type. We call this appropriate calculator  ":ref:`inner calculator <inner-calculator>`" throughout the functions. 
@@ -55,6 +56,8 @@ def __setitem__(self, setting_name, value, /):
    
    
 .. py:method:: recalculate_dependants(self, setting_name: str, override_original: bool) 
+    :no-index:
+   
     This function will be given an assumed user defined setting and it will call on a recursive function inside the :ref:`Base calculator <BaseCalculator>` to handle all of the recalculating
     
     :param str setting_name: The name of any setting. It might have other settings relying on it 
@@ -63,6 +66,7 @@ def __setitem__(self, setting_name, value, /):
 
     
 .. py:method:: get_settings(self)
+	
 	
 	This method will return the inner calculated settings dictionary 
 	
@@ -73,7 +77,7 @@ def __setitem__(self, setting_name, value, /):
 
 .. py:method:: update_settings(self, current_settings: Dict[str, Setting]))
 
-	This will call the :ref:`inner calculator <inner-calculator>`s `update_settings(current_settings)` which will simply create a copy of the settings passed in from the :ref:`technology <TechnologyModel>` and store it. This class DOES NOT do the storing, im only describing what the inner caclulator would do
+	This will call the :ref:`inner calculator <SpecificCalculator>` s `update_settings(current_settings)` which will simply create a copy of the settings passed in from the :ref:`technology <TechnologyModel>` and store it. This class DOES NOT do the storing, im only describing what the inner caclulator would do
 	
 	:param dict[str, Setting] current_settings: This is a map of setting names to their :ref:`Setting Objects <SettingModel>`
 	

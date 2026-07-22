@@ -54,7 +54,7 @@ load_data(default_data_paths): dictionary
 serialize_json(data, file_path): bool
 : This will take the data dictionary given and write it out in json file path as long as the path exists and the dictionary given is has valid type 
 
-type_matches([definition](#JsonDefinition)\_type_str, data_value): bool
+type_matches([definition](#JsonDefinitions)\_type_str, data_value): bool
 : this function will check that if the type given is "int" that the `data_value` given will be an instance of a int type for example. This works with "int", "float", "range", "string", "boolean"
 
 check_nested([schema](#JsonDefinitions)\_dict, [default](#JsonDefaults)\_dict, path="", schema_metadata = None):

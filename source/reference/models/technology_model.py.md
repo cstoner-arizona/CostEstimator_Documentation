@@ -76,7 +76,7 @@ get_metadata(meta_type): returns the value of the "metadata" key within the [jso
 
 get_all_settings(category_name): Returns a dictionary with all the [settings](#SettingModel) of a category. The keys are the setting name strings, the values are the settings value. 
 
-get_settings_as_save_format(): Returns a dictionary that would match just like the [defaults json file](#JsonDefault). It has meta data at the top, and categories as keys, then the values of categories would be dictionaries that hold a key:value pair of every setting. 
+get_settings_as_save_format(): Returns a dictionary that would match just like the [defaults json file](#JsonDefaults). It has meta data at the top, and categories as keys, then the values of categories would be dictionaries that hold a key:value pair of every setting. 
 
 Private method skipped (`_format_metadata`)
 
@@ -92,7 +92,7 @@ set_all_material_pointers(material_name): Loops over all material dependent sett
 
 is_modified(): Returns true if any settings within the technology are modified. This is used for detecting if the "Save Settings" button in the GUI should be lit up. 
 
-revert_all_settings(): Loops over all [setting](#Setting) objects for this technology and calls `setting_obj.revert()` on it which sets the `.value` to the `.original_value` and changes `.is_modified` to False
+revert_all_settings(): Loops over all [setting](#SettingModel) objects for this technology and calls `setting_obj.revert()` on it which sets the `.value` to the `.original_value` and changes `.is_modified` to False
 
 Private method skipped (`_is_valid_setting`)
 

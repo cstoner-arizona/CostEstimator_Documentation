@@ -67,7 +67,7 @@ to_list(): List[int]
 ## Examples Section
 - More detailed usage examples (Show the common patterns)
 
-{lineno-start=572 emphasize-lines="582,587"}
+{lineno-start=572 emphasize-lines="13,18"}
 ```python
 # CostEstimator/config/models/technology_model::_create_range_setting()
 def _create_range_setting(

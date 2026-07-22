@@ -1,4 +1,4 @@
-✅(MaterialsModel)=
+(MaterialsModel)=
 # Materials Model
 - **CostEstimator/config/models/materials/material_model.py**
 - This class was added to better help support settings that had different values based on the material used 
@@ -59,19 +59,19 @@ revert():
 `self.type`{l=python}
 : Returns a type object of the current value of the currently selected material.
 
-{#self.selected_material}
+{#self-selected_material}
 `self.selected_material`{l=python}
 : Returns the string name of the currently selected material. You can also set this value by doing `self.selected_material = other_material_name`.
 
 `self.selectable_materials`{l=python}
 : Returns a list of all selectable materials.
 
-{#self.materials}
+{#self-materials}
 `self.materials`{l=python}
 : Returns a dictionary of the materials strings mapping to their true value. If a material maps to a setting range then it will have that [SettingRange](#SettingRange) object in this dictionary. You can also set this value by doing `self.materials = new_dict_with_str_map_to_values`.
 
 `self.original_materials`{l=python}
-: Returns a [self.materials](#self.materials) like dictionary but instead its the values of the original -- on init -- materials in the dictionary. 
+: Returns a [self.materials](#self-materials) like dictionary but instead its the values of the original -- on init -- materials in the dictionary. 
 
 `self.is_modified`{l=python}
 : Returns if the Materials have had any of its values changed from the original. You can also set this value with a boolean.
@@ -89,5 +89,5 @@ The `self.material_container` is a [Materials](#MaterialsModel) object
 Its using that to get outs its currently selected materials
 
 ## Notes/Warnings
-- You should think about a Materials Class as a window pane that only shows 1 material at a time. It shows the window pane material in [selected material](#self.selected_material) and uses it to pull from the materials dictionary
+- You should think about a Materials Class as a window pane that only shows 1 material at a time. It shows the window pane material in [selected material](#self-selected_material) and uses it to pull from the materials dictionary
 

@@ -36,16 +36,17 @@ def recalculate_dependants(self, setting_name: str, override_original: bool):
 	"""
 	self.calculator.recalculate_dependants(setting_name, override_original)
 ```
-This is an example from the [Setting Calculator](#SettingCaclulator) that shows that for any type of `self.calculator` (which is any specific calculator type) we can call `.recalculate_dependants(setting_name, override_original)`{l=python}
+This is an example from the [Setting Calculator](#SettingCalculator) that shows that for any type of `self.calculator` (which is any specific calculator type) we can call `.recalculate_dependants(setting_name, override_original)`{l=python}
 
 ## Key Methods/Functions
 ```{eval-rst}
 .. py:method:: __init__(printer_type: str, settings: Dict[str, Setting])
+   :no-index:
 
    Initializes the base calculator with a printer type and settings dictionary.
 
    Accepts a printer type string and a dictionary mapping setting names to their corresponding
-   :ref:`Setting` objects. Creates an internal copy of the settings, builds a dependency tracker
+   :ref:`Setting <SettingModel>` objects. Creates an internal copy of the settings, builds a dependency tracker
    of setting dependents and dependencies, then identifies and stores all calculated settings.
 
    :param str printer_type: The type of printer as a string identifier.
@@ -62,7 +63,10 @@ This is an example from the [Setting Calculator](#SettingCaclulator) that shows 
    :param str setting_name: The name of the setting whose value has changed.
    :param bool override_original: Whether to override the original setting value during recalculation.
 
+
+
 .. py:method:: update_settings(settings: Dict[str, Setting])
+   :no-index:
 
    Replaces the current settings and recalculates all calculated settings.
 
@@ -71,7 +75,10 @@ This is an example from the [Setting Calculator](#SettingCaclulator) that shows 
 
    :param Dict[str, Setting] settings: Dictionary mapping setting names to their updated Setting objects.
 
+
+
 .. py:method:: get_settings() -> Dict[str, Setting]
+   :no-index:
 
    Returns the current settings stored in this calculator.
 
@@ -170,7 +177,7 @@ This is an example from the [Setting Calculator](#SettingCaclulator) that shows 
    :ref:`MaterialSetting <MaterialSetting>`, checks whether ``material_name`` is present
    in that setting's selectable materials. If so, it calls the setting's own
    ``update_material_selection`` method to effectly change that material settings 
-   materials container :ref:`currently selected material <self.selected_material>` to the one given.
+   materials container :ref:`currently selected material <self-selected_material>` to the one given.
    
    This functions purpose is to help calculate material settings but as far as I know its not used.
 
@@ -204,19 +211,25 @@ This is an example from the [Setting Calculator](#SettingCaclulator) that shows 
 	:type: Dict[str, Setting]
 	
 	:seealso: :ref:`Setting Object <SettingModel>`
+	
 	This holds a copy of the :ref:`technologies <TechnologyModel>` settings for the computation.
 	It will be sent back (actually called back) once the technology object knows there might
 	have been some changes.
 	
+	
+	
 .. py:property:: dependency_tracker
 	:type: SettingDependencyTracker
 	
-	:seealso: :ref:`SettingDependencyTracker <DependencyTracker>`
+	:seealso: :ref:`SettingDependencyTracker <SettingDependencyTracker>`
+	
 	This holds the dependency tree that maps the relationships between all settings that have dependencies.
 	There might be :ref:`calculated settings <calculated-setting>` that depends on another calculated setting, 
 	or another :ref:`user defined setting <user-defined-setting>`. That relationship must be known so that we 
 	can preform calculations in the correct order.
 	This is used in the calculate functions to get the dependants (Higher level settings that rely on user input settings).
+
+
 
 .. py:property:: printer_type
 	:type: String
@@ -229,6 +242,7 @@ This is an example from the [Setting Calculator](#SettingCaclulator) that shows 
 	:type: List[Str]
 	
 	:seealso: :ref:`Calculated Settings Explenation <calculated-setting>`
+	
 	This holds all the setting names that are considered to be a calculated setting, one with a formula attribute
 	and a "user_defined"=false attribute in the :ref:`json<JsonFilesInfo>`
 	

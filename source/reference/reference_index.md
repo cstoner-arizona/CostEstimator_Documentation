@@ -7,28 +7,29 @@ Hello I am a index reference to all API and Reference materials!
   :maxdepth: 1
   :caption: Reference Sections
 
+QMLFiles
 managers/config_manager.py
-managers/ConfigAPI
-managers/HowNewSTLDataGetsInputedIntoConfigManager
-json/JsonDefaults
-json/JsonDefinitions
-json/JsonFilesInfo
+managers/ConfigAPI.file
+CostEstimator.py
+Estimator.py
+json/JsonDefaults.file
+json/JsonDefinitions.file
+json/JsonFilesInfo.file
 json/file_service.py
 json/json_tools.py
 json/save_load_handler.py
+validator/schema_validator.py
+validator/setting_validator.py
 models/technology_model.py
 models/setting_model.py
 models/range_model.py
 models/metadata_model.py
-valdiator/schema_validator.py
-valdiator/setting_validator.py
 calculator/base.py
-calculator/Calculator
+calculator/Calculator.file
 calculator/setting_calculator.py
-calculator/SpecificCalculator
+calculator/SpecificCalculator.file
+calculator/SettingDependecyTracker.file
 materials/material_setting_model.py
 materials/materials_model.py
-validator/schema_validator.py
-validator/setting_validator.py
 ```
 
