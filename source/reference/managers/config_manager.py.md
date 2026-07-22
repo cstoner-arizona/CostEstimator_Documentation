@@ -46,7 +46,7 @@ The functions utilized are mostly QML Slots that are triggered by GUI elements. 
 ### \_\_Init\_\_() Method
 We first create the [FileService](#FileService) object and send it the `CostEstimator/config/resources/data` folder.
 Then the [Schema Validator](#SchemaValidator) and [ConfigAPI](#ConfigAPI) is created.
-Then we validate the [Json Definition](#JsonDefinition) files, and followed by the [Json Default](#JsonDefaults) files.
+Then we validate the [Json Definition](#JsonDefinitions) files, and followed by the [Json Default](#JsonDefaults) files.
 Then if there are user files we will validate their files, but if they fail we simply log. 
 
 Then we pull the entire [Json Definition](#JsonDefinitions) file and [Json Default](#JsonDefaults) and store it in `self._data_schema` and `self._default_data`. Just so you are aware, these variables are dictionaries with keys being the names of each technology found in its [Jsons metadata](#Metadata), and the values are the *entire* json file for that technology. 
@@ -263,7 +263,7 @@ The type `QVariant` is used within the `@pyqtSlot` decorator syntax as a way to 
 
 *Decorated with* `@pyqtSlot(str, result='QVariant')`
 
-Returns a `list[str]` which are category names given a valid printing technology as a string (see [hint](#hint-json-string-names) to find string names). Example of this list `["configuration","slicing_configuration","material_cost","machine_cost",...`.
+Returns a `list[str]` which are category names given a valid printing technology as a string (see :ref:`hint <hint-json-string-names>` to find string names). Example of this list `["configuration","slicing_configuration","material_cost","machine_cost",...`.
 
 ```
 
@@ -495,14 +495,14 @@ Returns names of all settings in a specific category given the valid printing te
 
 ```
 
-:::{hint}
-:name: hint-json-string-names
-The string names discussed in the functions above can be found in the JSON definitions. See [JSON Definitions](#JsonDefinitions) for more details.
-:::
+{#hint-json-string-names}
+Hint: The string names discussed in the functions above can be found in the JSON definitions. See [JSON Definitions](#JsonDefinitions) for more details.
+
 
 ## Important Attributes/Properties
 
 {#ConfigManagerCurrentType}
+.
 ```{eval-rst}
 .. py:property:: file_service
    :type: :ref:`FileService`
@@ -525,25 +525,37 @@ The string names discussed in the functions above can be found in the JSON defin
 .. py:property:: _data_schema
 	:type: Dict[tech_name, Dict[category_name, Dict[setting_name, Dict[type,user_defined,material_depenent, etc]]]]
 	
-	Holds a dictionary with the keys being the tech name found in the :ref:`Metadata` and the values being the entire :ref:`defintion json<JsonDefinition>`
+	Holds a dictionary with the keys being the tech name found in the :ref:`Metadata` and the values being the entire :ref:`defintion json<JsonDefinitions>`
 	
 	
 .. py:property:: _default_data
 	:type: Dict[tech_name, Dict[category_name, Dict[setting_name, (list | int | float)]]]
 	
-	Holds a dictionary with the keys being the tech name found in the :ref:`Metadata` and the values being the entire :ref:`default json<JsonDefault>`
+	Holds a dictionary with the keys being the tech name found in the :ref:`Metadata` and the values being the entire :ref:`default json<JsonDefaults>`
 	
 .. py:property:: _user_data
 	:type: Dictionary
 	
 	This property is not used as of July 2026. Its a part of a future feature where we load user saved json 
 	
+	
+.. py:property:: technologies
+	:type: Dict[str, Technology]
+	
+	This dictionary holds all the :ref:`technology objects<TechnologyModel>` for the plugin. It maps their string names of the technologies -- which are from the :ref:`json <JsonFilesInfo>` metadata -- and maps them to their :ref:`technology objects <TechnologyModel>`
+	
+	
+.. py:property:: _tech_type_stl_data_is_valid
+	:type: Dict[str, bool]
+	
+	This dictionary holds the current stl data status for each technololgy. This means that if a technology has not had the current STL files data be inputed from the estimate it will hold false, but if the user selects a technologie and presses 'calculate' and the stl data gets sent over then then it will have valid stl data and it will turn its corrisponding flag to True. The plugin resets all to false once the user opens the plugin no matter what. This property is used to determine if the GUI should show "Press calculate to see" for the :ref:`slice_first=true <stl-input-setting>` settings.  
 ```
 
 ### QML Signals
 
 {#updateSettingSignal}
 **updateSetting Signal**: 
+Once this signal is emitted, the [SettingComponent QML](#SettingComponentQML) will have its `.value` property updated by asking this [Config Manager](#ConfigManager) for the new value in memory
 
 {#modifiedChangedSignal}
 **modifedChanged Signal**: 
