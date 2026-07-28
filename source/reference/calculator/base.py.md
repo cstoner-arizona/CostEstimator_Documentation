@@ -1,9 +1,9 @@
 (BaseCalculator)=
 # BaseCalculator
 - **CostEstimator/config/calculator/backends/base.py**
-- This class is the abstract parent class to every specific type of calculator. 
-- This abstract class provides the base functionality for every specific technology calculator. The base functionality will be the same for every technologies calculator. For example the recalculation of dependents will be the same throughout all technology types so that functionality will be in this class.
-- The high level importance of a calculator is because there are some [calculated settings](#calculated-setting) and this class will have the functions and functionality to calculate those calculated settings 
+- This class is the abstract parent class to every [specific type of calculator](#SpecificCalculator). 
+- This abstract class provides the base functionality for every [specific technology calculator](#SpecificCalculator). The base functionality will be the same for every technologies calculator. For example the recalculation of dependents will be the same throughout all technology types so that functionality will be in this class.
+- Speaking high level functionality of this class. The importance of a calculator is because there are some [calculated settings](#calculated-setting) that must be computed and this class will have the functions and functionality to calculate those calculated settings 
 
 ## Inherits
 ABC (Abstract Class)
@@ -17,7 +17,7 @@ ABC (Abstract Class)
 
 ## Basic Usage Example
 
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+- A simple, realistic code snippet showing the most common way to use it 
 
 ```python
 # CostEstimator/config/calculator/backends/binder_jetting.py

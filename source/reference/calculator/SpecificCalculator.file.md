@@ -6,7 +6,30 @@
 
 (DispatchTable)=
 ## Dispatch Table
-The dispatch table is a mapping from valid [json setting names](#JsonFilesInfo) to their local callable functions that will be called if that setting name ever needs 
+The dispatch table is a mapping from valid [json setting names](#JsonFilesInfo) to their local callable functions that will be called if that setting name ever needs. 
+Here is an example of a dispatch table. 
+```python
+#CostEstimator/config/calculator/backends/lpbf.py
+def get_dispatch(self) -> Dict[str, Callable]:  
+    """  Returns the dispatch table mapping setting names to their calculation methods for LPBF printers.    """    
+    return {    "support_factor": self.update_support_factor,  
+                "recycling_factor": self.update_recycling_factor,  
+                "material_cost_per_part": self.update_material_cost_per_part,  
+                "machine_hourly_cost": self.update_machine_hourly_cost,  
+                "investment_cost": self.update_investment_cost,  
+                "machine_cost_per_part": self.update_machine_cost_per_part,  
+                "labor_cost_per_part": self.update_labor_cost_per_part,  
+                "energy_cost_per_part": self.update_energy_cost_per_part,  
+                "direct_cost_per_part_excluding_labor": self.update_direct_cost_per_part_excluding_labor,  
+                "post_processing_cost_per_part": self.update_post_processing_cost_per_part,  
+                "yearly_maintenance_cost": self.update_yearly_maintenance_cost,  
+                "maintenance_cost_per_part": self.update_maintenance_cost_per_part,  
+                "annual_overhead_cost": self.update_annual_overhead_cost,  
+                "overhead_rate": self.update_overhead_rate,  
+                "overhead_cost_per_part": self.update_overhead_cost_per_part,  
+                "total_cost_per_part": self.update_total_cost_per_part  
+            }
+```
 
 (SettingUpdateMethod)=
 ## Update functions
@@ -60,7 +83,7 @@ def _calculate_total_binder_used_per_build(
 	packing_rate = packing_rate / 100
 	return (stl_printed_region_volume*binder_saturation*inefficiency_multiplier*(1-packing_rate))/1000000
 ```
-Notice in this example that the 2 values are divided by 100, this is because for percentages or ratios it makes more sense to ask the user for a value between 0-100 rather than 0-1.0. 
+Notice in this example ⬆︎ that the 2 values are divided by 100, this is because for percentages or ratios it makes more sense to ask the user for a value between 0-100 rather than 0-1.0. 
 
 {lineno-start=1 emphasize-lines="21,22"}
 ```python
@@ -88,6 +111,6 @@ def _calculate_material_cost_per_part(
 		return SettingRange(0,0)
 	return (((total_sand_used_per_build*powder_sand_price)+(total_binder_used_per_build*binder_price))/batch_size)+direct_cost_of_metal_per_part
 ```
-Notice in this example that we have a less than zero check for batch size. That is because we dont want to do a division by zero which would cause it to crash. We'd rather return a setting range that is 0-0 because that value of zero could be a user typo. 
+Notice in this ⬆︎ example that we have a less than zero check for batch size. That is because we dont want to do a division by zero which would cause it to crash. We'd rather return a setting range that is 0-0 because that value of zero could be a user typo. 
 
 Whenever the [depends on](#calculated-setting) attribute gets changed for a setting then the **parameters for the calculate functions must change**. Actually almost all of the this function must be changed (params, docstring, and computation)

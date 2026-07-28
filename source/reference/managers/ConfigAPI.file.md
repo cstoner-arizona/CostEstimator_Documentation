@@ -13,7 +13,7 @@
 
 ## Basic Usage Example
 
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+- A simple, realistic code snippet showing the most common way to use it 
 
 {lineno-start=0 emphasize-lines="7,8,9,10,11,12"}
 ```python
@@ -140,14 +140,45 @@ __ https://github.com/users/cstoner-arizona/projects/2/views/1?filterQuery=133&p
 
 ## Important Attributes/Properties
 
-
-- What can the user access or modify?
-
+```{eval-rst}
+.. py:property:: _config_manager
+	:type: ConfigManager
+	
+	Holds a reference to the config manager for the plugin which allows the ConfigAPI to pull settings, determine functions, and use the config managers methods.
+```
   
 
 ## Examples Section
-- More detailed usage examples (Show the common patterns)
+- More detailed usage examples 
+```python
+#CostEstimator/estimate/estimate_manager.py
+@pyqtSlot()  
+def calc_min_cost(self):  
+    """..truncated for example.."""  
+    self.set_parameter_values('min')  
+    try:  
+        self.minCost = self._config_api.get_setting(self.technology.type, 'total_cost_per_part').value.min
+```
+- This examples shows getting a specific technology object from the config api
 
+{lineno-start=0 emphasize-lines="13"}
+```python
+#CostEstimator/estimate/estimate_manager.py
+def _update_config(self) -> None:  
+    """..truncated for example.."""    
+    try:  
+        surfaceArea = self.solid_part.surfaceArea  # available even for non-watertight parts  
+  
+        stl_settings = {  
+            'part_volume': self._part_volume,  
+            'surface_area_of_one_part': surfaceArea,  
+            'support_volume_required_for_one_part': self.support_volume,  
+            'net_casting_volume_per_part': self._part_volume * 1.5,  
+            'dlp_build_time': self.totalTime / 60.0,  
+        }  
+        self._config_api.input_STL_data(self.technology.type, stl_settings)
+```
+- This examples show how to send the STL based data back to the [config manager](#ConfigManager) using the ConfigAPI
 ## Notes/Warnings
 
 - Edge cases, performance considerations, gotchas, commit mistakes people can make 

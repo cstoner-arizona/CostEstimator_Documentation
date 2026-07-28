@@ -15,7 +15,7 @@
 
 ## Basic Usage Example
 
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+- A simple, realistic code snippet showing the most common way to use it 
 
 ```python
 if self.type == "range"
@@ -65,7 +65,7 @@ to_list(): List[int]
   
 
 ## Examples Section
-- More detailed usage examples (Show the common patterns)
+- More detailed usage examples 
 
 {lineno-start=572 emphasize-lines="13,18"}
 ```python

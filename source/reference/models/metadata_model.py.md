@@ -46,7 +46,7 @@ What can be modified?
 - Nothing should really be modified unless another developer overhauls a json file and they should change the company, author, version
 
 ## Examples Section
-- More detailed usage examples (Show the common patterns)
+- More detailed usage examples 
 CostEstimator/config/resources/data/[defaults](#JsonDefaults)/printer_pattern_investment_default.json
 ```json
 "metadata": {

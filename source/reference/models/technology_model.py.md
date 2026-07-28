@@ -26,7 +26,7 @@
 
 ## Basic Usage Example
 
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+- A simple, realistic code snippet showing the most common way to use it
 
 CostEstimator/config/io/[save_load_handler](#SaveLoadHandler).py::load_settings()
 ```python

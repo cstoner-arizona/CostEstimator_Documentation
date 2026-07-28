@@ -18,24 +18,20 @@
 
 ## Basic Usage Example
 
-- This is an example of how a developer would add the [ConfigManager](#ConfigManager) to Cura and link the relevant QML Component (TODO: Link Relevant QML Component)
+- This is an example of how a developer would add the [ConfigManager](#ConfigManager) to Cura and [link the PrintedConfigWindow QML ](#PrinterConfigWindowQML) Component 
 
 ```python
-...
-self._config_window_qml = os.path.join(
-  os.path.dirname(os.path.abspath(__file__)),
-  "config",
-  "resources",
-  "qml",
-  "PrinterConfigWindow.qml"
-)
-self._config_manager = ConfigManager()
-# Requires Path to QML File and QObject
-self._config_window = self._application.createQmlComponent(
-  self._config_window_qml,
-  {"configManager": self._config_manager}
-)
-...
+#CostEstimator/CostEstimator.py
+def _showWorkflowWindow(self)->None:
+	path = os.path.join(  
+	    os.path.dirname(os.path.abspath(__file__)),  
+	    "resources",  
+	    self._qml_folder,  
+	    "TabbedWorkflow.qml"  
+	)  
+	try:  
+	    self._workflow_window = self._application.createQmlComponent(path,  
+	        {"manager":self,"configManager": self._config_manager})
 ```
 
 
@@ -552,19 +548,25 @@ Hint: The string names discussed in the functions above can be found in the JSON
 ```
 
 ### QML Signals
+You can find out where a signal is connected by doing a global `cntr+f` and searching for `onUpdateSetting` for QML connections or `updateSetting` for pyqtProperty connections for example. 
+Notice that when searching in QML connections it will be lowercase `on` then upercase signal name `onUpdateSetting` because that is how the QML connects to the python defined signals.
 
 {#updateSettingSignal}
 **updateSetting Signal**: 
-Once this signal is emitted, the [SettingComponent QML](#SettingComponentQML) will have its `.value` property updated by asking this [Config Manager](#ConfigManager) for the new value in memory
+Once this signal is emitted, the [SettingComponent QML](#SettingComponentQML) will have its `.value` property updated by asking this [Config Manager](#ConfigManager) for the new value in memory.
 
 {#modifiedChangedSignal}
 **modifedChanged Signal**: 
+Once this is emitted the {attr}`modified` property will send out its value to all of its dependents. Its dependents are the yellow "modified" label in the GUI, the save/discard buttons as of July2026. You may 
 
 {#currentTypeChangedSignal}
 **currentTypeChanged Signal**:
+Once this is emitted the {attr}`currentType` property will send out its value to all of its dependents. Also once this is emitted it will reset the scroll plane for displaying settings back to the top. 
+
 
 {#settingsDataDiscardedSignal}
 **settingsDataDiscarded Signal**:
+Once this signal is emitted all settings GUI will request for the new value in memory. For some reason its also connected to the {attr}`types` attribute which wouldnt make sense if the keys of the {attr}`technologies` never changes. 
 
 
 ### QML Properties
@@ -581,7 +583,7 @@ These properties have a really nice trait where we can add a `notify=mySignalNam
 .. py:property:: modified
 	:type: Boolean
 	
-	This will return True if the `self.current_type` of technology is currently modified
+	This will return True if the `self.current_type` of technology is currently modified. This is used for enabling the yellow "modified" label, and the save/discard buttons as of July2026
 	
 .. py:property:: currentType
 	:type: Str
@@ -591,12 +593,8 @@ These properties have a really nice trait where we can add a `notify=mySignalNam
 	
 
 ```
-- What can the user access or modify?
 
   
-
-## Examples Section
-- More detailed usage examples (Show the common patterns)
 
 ## Notes/Warnings
 

@@ -7,27 +7,11 @@ When "setting" is mentioned it refers to the definition json key value pairs of
 the example below. This key:value is inside a "category". An example of a category is "material_cost" or "energy_cost" within machining_def.json. A setting in this case would be a key:value pairing within the "material_cost" category values. An example of a setting is shown below. 
 
 {#init-setting-json-def-example}
-CostEstimator/config/resources/data/definitions/machining_def.json
-```json
-"machine_cost": {
-    "machine_hourly_cost": {
-      "type": "range",
-      "user_defined": false,
-      "material_dependent": false,
-      "decimal": 2,
-      "unit": "$/h",
-      "description": "Calculated hourly cost of machine operation. Formula: =yearly investment cost [$/year]/(machine utilization [\u2013]*total machine hours per year [h/year])",
-      "formula": "yearly_investment_cost/(machine_utilization*total_machine_hours_per_year)",
-      "depends_on": [
-        "yearly_investment_cost",
-        "machine_utilization",
-        "total_machine_hours_per_year"
-      ]
-    }
-```
+`CostEstimator/config/resources/data/definitions/machining_def.json`
+![SettingDef-Example.png](SettingDef-Example.png)
 :::
 Here above is an example of a json definition for reference.
-This is a reference of a **calculated** setting. This is because it has both a "formula", and "depends_on"
+This is a reference of a **calculated** setting. This is because it has both a `"formula"`, and `"depends_on"`
 
 
 
@@ -135,6 +119,7 @@ This is because when a `SettingRange * float` it produces a `SettingRange`. Lear
 - This attribute **must** contain all of the settings in the "formula" attribute 
 - The strings in the list **must** be perfect names of the key names of the setting it depends on.
 - Go ahead and look at the [example above](#init-setting-json-def-example). You will see that it depends on "machine_utilization". <- This string is the **exact** name of the json definition in the same file. It can be found in the "machine_cost" category. 
+- **If this gets changed** you must also update the [Settings Update Function](#SettingUpdateMethod) and its [Calculate Function](#SettingCaculateMethod) to have the new parameters. 
 
 {#how-to-use-materials-attr}
 **"materials"**

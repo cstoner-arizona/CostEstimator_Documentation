@@ -16,7 +16,7 @@
 
 ## Basic Usage Example
 
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+- A simple, realistic code snippet showing the most common way to use it 
 
 ```python
 for setting_name, setting_obj in settings.items():

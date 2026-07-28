@@ -15,7 +15,7 @@
 
 ## Basic Usage Example
 
-- A simple, realistic code snippet showing the most common way to use it (keep it short, just enough for the basic idea)
+- A simple, realistic code snippet showing the most common way to use it 
 {lineno-start=1 emphasize-lines="13,16,19"}
 ```python
 # CostEstimator/config/models/technology_model.py
