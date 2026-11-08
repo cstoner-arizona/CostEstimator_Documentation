@@ -15,6 +15,7 @@ env_specs:
       - sphinx=9.1.0
       - myst-parser
       - sphinx-rtd-theme
+      - sphinx-togglebutton
     channels:
       - defaults
       - conda-forge
