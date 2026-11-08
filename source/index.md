@@ -8,14 +8,16 @@ The objective is to teach and illustrate the architecture and serve as an API re
 
 # How to Get Started
 
-{doc}`Getting Started<how-to/getting-started>`
-
 This basic guide will teach you the basics of running the plugin.
 The guide breaks down the installation process for developers whether you're working with the Cura source code directly, or if you just have a normal Cura installation.
 
 
 ```{toctree}
   :maxdepth: 2
+  :caption: Sections
+  :titlesonly:
 
-how-to/getting-started
+how-to/how_to_index
+reference/reference_index
+explanation/explanation_index
 ```
